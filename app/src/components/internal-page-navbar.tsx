@@ -32,7 +32,7 @@ export default function InternalPageNavbar({ currentPage, onNavigate }: Internal
             <button
               key={link.key}
               onClick={() => onNavigate(link.key)}
-              className={`text-xs font-mono uppercase tracking-widest transition-colors ${
+              className={`text-base font-mono uppercase tracking-widest transition-colors ${
                 currentPage === link.key ? 'text-[#be1e2d]' : 'text-[#6b7280] hover:text-[#1f2937]'
               }`}
             >

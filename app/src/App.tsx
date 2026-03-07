@@ -18,6 +18,7 @@ import {
   MessageCircle
 } from 'lucide-react';
 import logo from '@/assets/logo.svg';
+import videoBg from '@/assets/video_bg.mp4';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -112,9 +113,9 @@ function App() {
   ];
 
   const differentials = [
-    { icon: <Award className="w-6 h-6" />, title: '25+ Anos', description: 'De experiência no mercado' },
-    { icon: <Users className="w-6 h-6" />, title: '50.000+', description: 'Clientes atendidos' },
-    { icon: <CheckCircle className="w-6 h-6" />, title: 'Garantia', description: 'Em todos os serviços' },
+    { icon: <Award className="w-6 h-6" />, title: '20+ Anos', description: 'De experiência no mercado' },
+    { icon: <Users className="w-6 h-6" />, title: '10k+', description: 'Clientes atendidos' },
+    { icon: <CheckCircle className="w-6 h-6" />, title: '100%', description: 'Satisfação' },
     { icon: <Clock className="w-6 h-6" />, title: 'Agilidade', description: 'Atendimento rápido' }
   ];
 
@@ -169,16 +170,16 @@ function App() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-          <button onClick={() => scrollToSection('servicos')} className="text-xs font-mono uppercase tracking-widest text-[#6b7280] hover:text-[#1f2937] transition-colors">
+          <button onClick={() => scrollToSection('servicos')} className="text-base font-mono uppercase tracking-widest text-[#6b7280] hover:text-[#1f2937] transition-colors">
             Serviços
           </button>
-          <button onClick={() => scrollToSection('sobre')} className="text-xs font-mono uppercase tracking-widest text-[#6b7280] hover:text-[#1f2937] transition-colors">
+          <button onClick={() => scrollToSection('sobre')} className="text-base font-mono uppercase tracking-widest text-[#6b7280] hover:text-[#1f2937] transition-colors">
             Quem Somos
           </button>
-          <button onClick={() => scrollToSection('depoimentos')} className="text-xs font-mono uppercase tracking-widest text-[#6b7280] hover:text-[#1f2937] transition-colors">
+          <button onClick={() => scrollToSection('depoimentos')} className="text-base font-mono uppercase tracking-widest text-[#6b7280] hover:text-[#1f2937] transition-colors">
             Depoimentos
           </button>
-          <button onClick={() => scrollToSection('contato')} className="text-xs font-mono uppercase tracking-widest text-[#6b7280] hover:text-[#1f2937] transition-colors">
+          <button onClick={() => scrollToSection('contato')} className="text-base font-mono uppercase tracking-widest text-[#6b7280] hover:text-[#1f2937] transition-colors">
             Contato
           </button>
         </div>
@@ -188,7 +189,7 @@ function App() {
             <DialogTrigger asChild>
               <button className="btn-beam">
                 <span className="btn-beam-border" />
-                <span className="btn-beam-inner text-xs uppercase tracking-widest">
+                <span className="btn-beam-inner text-base uppercase tracking-widest">
                   <Calendar className="w-4 h-4" />
                   Agendar
                 </span>
@@ -252,18 +253,19 @@ function App() {
       )}
 
       {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      <section ref={heroRef} className="relative h-screen min-h-screen flex items-center justify-center overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
-          <iframe
-            id="js_video_iframe"
-            src="https://jumpshare.com/embed/F6SaF9s9lRizUV1vf76U"
-            title="SPA Hero Video"
-            frameBorder="0"
-            allowFullScreen
-            className="absolute inset-0 w-full h-full"
-          />
-          <div className="absolute inset-0 bg-black/40" />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src={videoBg} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/70" />
         </div>
         
         {/* Background Grid (subtle over video) */}
@@ -292,7 +294,7 @@ function App() {
                   <span className="text-reveal-content text-white">Cuidamos</span>
                 </span>
                 <span className="text-reveal-wrapper block">
-                  <span className="text-reveal-content delay-100" style={{ color: 'transparent', WebkitTextStroke: '1.5px rgba(255,255,255,0.4)' }}>do seu</span>
+                  <span className="text-reveal-content delay-100" style={{ color: 'transparent', WebkitTextStroke: '1.5px rgba(255,255,255,0.4)' }}>do seu </span>
                 </span>
                 <span className="text-reveal-wrapper block">
                   <span className="text-reveal-content delay-200 text-[#be1e2d]">carro</span>
@@ -319,16 +321,16 @@ function App() {
               {/* Stats */}
               <div className="flex gap-8 pt-8 border-t border-white/20 reveal delay-500">
                 <div>
-                  <div className="text-3xl font-display font-bold text-white">25+</div>
+                  <div className="text-3xl font-display font-bold text-white">20+</div>
                   <div className="text-xs font-mono uppercase tracking-wider text-white/60 mt-1">Anos</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-display font-bold text-white">50k+</div>
+                  <div className="text-3xl font-display font-bold text-white">10k+</div>
                   <div className="text-xs font-mono uppercase tracking-wider text-white/60 mt-1">Clientes</div>
                 </div>
                 <div>
                   <div className="text-3xl font-display font-bold text-[#be1e2d]">100%</div>
-                  <div className="text-xs font-mono uppercase tracking-wider text-white/60 mt-1">Garantia</div>
+                  <div className="text-xs font-mono uppercase tracking-wider text-white/60 mt-1">Satisfação</div>
                 </div>
               </div>
             </div>
@@ -514,7 +516,7 @@ function App() {
               
               {/* Experience Badge */}
               <div className="absolute -bottom-6 -right-6 bg-[#be1e2d] text-white p-6 rounded-2xl shadow-xl">
-                <div className="text-4xl font-display font-bold">25+</div>
+                <div className="text-4xl font-display font-bold">20+</div>
                 <div className="text-sm opacity-90">Anos de<br/>Experiência</div>
               </div>
             </div>
