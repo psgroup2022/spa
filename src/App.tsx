@@ -253,7 +253,7 @@ function App() {
       )}
 
       {/* Hero Section */}
-      <section ref={heroRef} className="relative h-screen min-h-screen flex items-center justify-center overflow-hidden">
+      <section ref={heroRef} className="relative h-screen min-h-screen flex items-start md:items-center justify-center overflow-hidden pt-24 md:pt-0">
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
           <video
@@ -276,7 +276,7 @@ function App() {
         <div className="absolute bottom-40 left-20 w-32 h-32 border border-white/10 rounded-full animate-spin-slow hidden lg:block z-[2]" style={{ animationDuration: '12s' }} />
 
         {/* Main Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-8 md:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left: Text Content */}
             <div className="space-y-8 z-[3]">
