@@ -291,7 +291,7 @@ function App() {
               {/* Main Title */}
               <h1 className="font-display text-5xl md:text-7xl tracking-tight leading-none" id="hero-title">
                 <span className="text-reveal-wrapper block">
-                  <span className="text-reveal-content text-white">Cuidamos</span>
+                  <span className="text-reveal-content text-white">Cuidamos </span>
                 </span>
                 <span className="text-reveal-wrapper block">
                   <span className="text-reveal-content delay-100" style={{ color: 'transparent', WebkitTextStroke: '1.5px rgba(255,255,255,0.4)' }}>do seu </span>
