@@ -94,8 +94,7 @@ body {
 /* Text Mask Reveal */
 .text-reveal-wrapper {
   overflow: hidden;
-  display: inline-block;
-  vertical-align: bottom;
+  display: block;
 }
 
 .text-reveal-content {
