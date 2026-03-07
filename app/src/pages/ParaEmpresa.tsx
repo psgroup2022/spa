@@ -21,7 +21,7 @@ export default function ParaEmpresa({ onNavigate, currentPage }: ParaEmpresaProp
       description: 'Plataforma Zeta Informática para controle total da frota'
     },
     {
-      icon: <Shield className="w-8 h-8 text-[#be1e2d]" />,
+      icon: <Shield className="w-8 h-8 text-[#be1e4d]" />,
       title: 'Padrões de Fábrica',
       description: 'Todos os serviços seguem especificações técnicas originais'
     }
