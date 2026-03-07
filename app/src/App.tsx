@@ -255,22 +255,15 @@ function App() {
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-            poster="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=1920&q=80"
-          >
-            <source 
-              src="https://videos.pexels.com/video-files/4486378/4486378-hd_1920_1080_25fps.mp4" 
-              type="video/mp4" 
-            />
-          </video>
-          {/* Video Overlay - Dark gradient for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
-          <div className="absolute inset-0 bg-[#be1e2d]/10" />
+          <iframe
+            id="js_video_iframe"
+            src="https://jumpshare.com/embed/F6SaF9s9lRizUV1vf76U"
+            title="SPA Hero Video"
+            frameBorder="0"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full"
+          />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
         
         {/* Background Grid (subtle over video) */}
