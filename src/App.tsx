@@ -661,7 +661,7 @@ function App() {
                   </div>
                   <div>
                     <div className="text-xs font-mono uppercase text-[#6b7280]">Horário</div>
-                    <div className="font-bold text-[#1f2937]">Seg-Sex: 8h às 18h | Sáb: 8h às 12h</div>
+                    <div className="font-bold text-[#1f2937]">Seg-Sex: 8h às 18h</div>
                   </div>
                 </div>
               </div>
