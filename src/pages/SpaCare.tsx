@@ -133,7 +133,7 @@ export default function SpaCare({ onNavigate, currentPage }: SpaCareProp) {
           <h3 className="text-3xl font-bold mb-4">Seu veículo merece o melhor</h3>
           <p className="text-xl mb-8 opacity-90">Agende um atendimento com a SPA Care</p>
           <Button 
-            onClick={() => window.open('https://wa.me/5551996851101?text=' + encodeURIComponent('Olá! Gostaria de agendar um atendimento na SPA Care.'), '_blank')}
+            onClick={() => window.open('https://wa.me/5551981833205?text=' + encodeURIComponent('Olá! Gostaria de agendar um atendimento na SPA Care.'), '_blank')}
             className="bg-white text-[#be1e2d] hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
           >
             Entre em Contato

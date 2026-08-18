@@ -49,7 +49,7 @@ function App() {
   const [contactMensagem, setContactMensagem] = useState('');
 
   const sendWhatsApp = (message: string) => {
-    const url = `https://wa.me/5551996851101?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/5551981833205?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   };
 
@@ -698,7 +698,7 @@ function App() {
                   </div>
                   <div>
                     <div className="text-xs font-mono uppercase text-[#6b7280]">WhatsApp / Telefone</div>
-                    <div className="font-bold text-[#1f2937]">(51) 99685-1101</div>
+                    <div className="font-bold text-[#1f2937]">(51) 98183-3205</div>
                   </div>
                 </div>
 
@@ -825,7 +825,7 @@ function App() {
                 <a href="https://www.instagram.com/spaautomotiva/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#be1e2d] transition-colors">
                   <span className="text-lg">📸</span>
                 </a>
-                <a href="https://wa.me/5551996851101" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#be1e2d] transition-colors">
+                <a href="https://wa.me/5551981833205" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#be1e2d] transition-colors">
                   <MessageCircle className="w-4 h-4" />
                 </a>
               </div>
@@ -869,7 +869,7 @@ function App() {
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/5551996851101"
+        href="https://wa.me/5551981833205"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-8 right-8 z-50 w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"

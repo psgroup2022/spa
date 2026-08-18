@@ -156,7 +156,7 @@ export default function SpaRacing({ onNavigate, currentPage }: SpaRacingProps) {
           <h3 className="text-3xl font-bold mb-4 text-[#1f2937]">Transforme seu veículo em pista</h3>
           <p className="text-xl text-[#6b7280] mb-8">Conheça nossas soluções de performance</p>
           <Button 
-            onClick={() => window.open('https://wa.me/5551996851101?text=' + encodeURIComponent('Olá! Gostaria de solicitar um orçamento para SPA Racing.'), '_blank')}
+            onClick={() => window.open('https://wa.me/5551981833205?text=' + encodeURIComponent('Olá! Gostaria de solicitar um orçamento para SPA Racing.'), '_blank')}
             className="bg-[#be1e2d] hover:bg-[#8f1320] px-8 py-3 text-lg font-semibold text-white"
           >
             Solicitar Orçamento
