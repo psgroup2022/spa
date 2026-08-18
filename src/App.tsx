@@ -35,6 +35,45 @@ function App() {
   const [currentPage, setCurrentPage] = useState<'home' | 'para-voce' | 'para-empresa' | 'spa-racing' | 'spa-care'>('home');
   const heroRef = useRef<HTMLDivElement>(null);
 
+  // States for Dialog Agendamento
+  const [dialogNome, setDialogNome] = useState('');
+  const [dialogTelefone, setDialogTelefone] = useState('');
+  const [dialogServico, setDialogServico] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // States for Contact Form Agendamento
+  const [contactNome, setContactNome] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactTelefone, setContactTelefone] = useState('');
+  const [contactServico, setContactServico] = useState('');
+  const [contactMensagem, setContactMensagem] = useState('');
+
+  const sendWhatsApp = (message: string) => {
+    const url = `https://wa.me/5551996851101?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  };
+
+  const handleDialogSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    let msg = 'Olá! Gostaria de agendar um serviço na SPA Automotiva.';
+    if (dialogNome) msg += `\n*Nome:* ${dialogNome}`;
+    if (dialogTelefone) msg += `\n*Telefone:* ${dialogTelefone}`;
+    if (dialogServico && dialogServico !== 'Selecione um serviço') msg += `\n*Serviço:* ${dialogServico}`;
+    sendWhatsApp(msg);
+    setIsDialogOpen(false);
+  };
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    let msg = 'Olá! Gostaria de agendar um serviço na SPA Automotiva.';
+    if (contactNome) msg += `\n*Nome:* ${contactNome}`;
+    if (contactEmail) msg += `\n*Email:* ${contactEmail}`;
+    if (contactTelefone) msg += `\n*Telefone:* ${contactTelefone}`;
+    if (contactServico && contactServico !== 'Selecione um serviço') msg += `\n*Serviço:* ${contactServico}`;
+    if (contactMensagem) msg += `\n*Mensagem:* ${contactMensagem}`;
+    sendWhatsApp(msg);
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -185,7 +224,7 @@ function App() {
         </div>
 
         <div className="hidden md:block">
-          <Dialog>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <button className="btn-beam">
                 <span className="btn-beam-border" />
@@ -199,18 +238,30 @@ function App() {
               <DialogHeader>
                 <DialogTitle className="text-xl font-bold">Agendar Serviço</DialogTitle>
               </DialogHeader>
-              <div className="space-y-4 pt-4">
+              <form onSubmit={handleDialogSubmit} className="space-y-4 pt-4">
                 <div>
                   <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Nome</label>
-                  <Input placeholder="Seu nome" />
+                  <Input 
+                    placeholder="Seu nome" 
+                    value={dialogNome}
+                    onChange={(e) => setDialogNome(e.target.value)}
+                  />
                 </div>
                 <div>
                   <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Telefone</label>
-                  <Input placeholder="(51) 99999-9999" />
+                  <Input 
+                    placeholder="(51) 99999-9999" 
+                    value={dialogTelefone}
+                    onChange={(e) => setDialogTelefone(e.target.value)}
+                  />
                 </div>
                 <div>
                   <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Serviço</label>
-                  <select className="w-full h-10 px-3 rounded-md border border-[#e5e7eb] bg-white text-sm">
+                  <select 
+                    className="w-full h-10 px-3 rounded-md border border-[#e5e7eb] bg-white text-sm"
+                    value={dialogServico}
+                    onChange={(e) => setDialogServico(e.target.value)}
+                  >
                     <option>Selecione um serviço</option>
                     <option>Revisão</option>
                     <option>Troca de Óleo</option>
@@ -219,10 +270,10 @@ function App() {
                     <option>Outro</option>
                   </select>
                 </div>
-                <Button className="w-full bg-[#be1e2d] hover:bg-[#8f1320] text-white rounded-full">
+                <Button type="submit" className="w-full bg-[#be1e2d] hover:bg-[#8f1320] text-white rounded-full">
                   Solicitar Agendamento
                 </Button>
-              </div>
+              </form>
             </DialogContent>
           </Dialog>
         </div>
@@ -244,7 +295,13 @@ function App() {
             <button onClick={() => scrollToSection('sobre')} className="text-lg font-medium text-left">Quem Somos</button>
             <button onClick={() => scrollToSection('depoimentos')} className="text-lg font-medium text-left">Depoimentos</button>
             <button onClick={() => scrollToSection('contato')} className="text-lg font-medium text-left">Contato</button>
-            <Button className="w-full bg-[#be1e2d] hover:bg-[#8f1320] text-white rounded-full mt-4">
+            <Button 
+              onClick={() => {
+                sendWhatsApp('Olá! Gostaria de agendar um serviço na SPA Automotiva.');
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full bg-[#be1e2d] hover:bg-[#8f1320] text-white rounded-full mt-4"
+            >
               <Calendar className="w-4 h-4 mr-2" />
               Agendar Serviço
             </Button>
