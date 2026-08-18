@@ -697,8 +697,8 @@ function App() {
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-xs font-mono uppercase text-[#6b7280]">Telefone</div>
-                    <div className="font-bold text-[#1f2937]">(51) 3012-3360</div>
+                    <div className="text-xs font-mono uppercase text-[#6b7280]">WhatsApp / Telefone</div>
+                    <div className="font-bold text-[#1f2937]">(51) 99685-1101</div>
                   </div>
                 </div>
 
@@ -729,26 +729,46 @@ function App() {
               <div className="bg-white p-8 rounded-2xl border border-[#e5e7eb] shadow-lg">
                 <h3 className="text-xl font-bold text-[#1f2937] mb-6">Agende seu Serviço</h3>
                 
-                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-4" onSubmit={handleContactSubmit}>
                   <div>
                     <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Nome</label>
-                    <Input placeholder="Seu nome completo" className="h-12" />
+                    <Input 
+                      placeholder="Seu nome completo" 
+                      className="h-12" 
+                      value={contactNome}
+                      onChange={(e) => setContactNome(e.target.value)}
+                    />
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Email</label>
-                      <Input type="email" placeholder="seu@email.com" className="h-12" />
+                      <Input 
+                        type="email" 
+                        placeholder="seu@email.com" 
+                        className="h-12" 
+                        value={contactEmail}
+                        onChange={(e) => setContactEmail(e.target.value)}
+                      />
                     </div>
                     <div>
                       <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Telefone</label>
-                      <Input placeholder="(51) 99999-9999" className="h-12" />
+                      <Input 
+                        placeholder="(51) 99999-9999" 
+                        className="h-12" 
+                        value={contactTelefone}
+                        onChange={(e) => setContactTelefone(e.target.value)}
+                      />
                     </div>
                   </div>
                   
                   <div>
                     <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Serviço</label>
-                    <select className="w-full h-12 px-3 rounded-md border border-[#e5e7eb] bg-white text-sm">
+                    <select 
+                      className="w-full h-12 px-3 rounded-md border border-[#e5e7eb] bg-white text-sm"
+                      value={contactServico}
+                      onChange={(e) => setContactServico(e.target.value)}
+                    >
                       <option>Selecione um serviço</option>
                       <option>Revisão Completa</option>
                       <option>Troca de Óleo</option>
@@ -762,10 +782,15 @@ function App() {
                   
                   <div>
                     <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Mensagem</label>
-                    <Textarea placeholder="Descreva o que você precisa..." className="min-h-[100px]" />
+                    <Textarea 
+                      placeholder="Descreva o que você precisa..." 
+                      className="min-h-[100px]" 
+                      value={contactMensagem}
+                      onChange={(e) => setContactMensagem(e.target.value)}
+                    />
                   </div>
                   
-                  <Button className="w-full h-12 bg-[#be1e2d] hover:bg-[#8f1320] text-white rounded-full font-semibold">
+                  <Button type="submit" className="w-full h-12 bg-[#be1e2d] hover:bg-[#8f1320] text-white rounded-full font-semibold">
                     <Calendar className="w-4 h-4 mr-2" />
                     Solicitar Agendamento
                   </Button>
@@ -800,7 +825,7 @@ function App() {
                 <a href="https://www.instagram.com/spaautomotiva/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#be1e2d] transition-colors">
                   <span className="text-lg">📸</span>
                 </a>
-                <a href="https://wa.me/5551981833205" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#be1e2d] transition-colors">
+                <a href="https://wa.me/5551996851101" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#be1e2d] transition-colors">
                   <MessageCircle className="w-4 h-4" />
                 </a>
               </div>
@@ -844,7 +869,7 @@ function App() {
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/5551981833205"
+        href="https://wa.me/5551996851101"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-8 right-8 z-50 w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"

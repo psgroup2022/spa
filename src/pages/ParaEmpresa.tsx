@@ -152,7 +152,10 @@ export default function ParaEmpresa({ onNavigate, currentPage }: ParaEmpresaProp
         <div className="bg-gradient-to-r from-[#be1e2d] to-[#8f1320] text-white rounded-2xl p-12 text-center">
           <h3 className="text-3xl font-bold mb-4">Pronto para gerenciar sua frota?</h3>
           <p className="text-xl mb-8 opacity-90">Entre em contato e conheça nossas soluções</p>
-          <Button className="bg-white text-[#be1e2d] hover:bg-gray-100 px-8 py-3 text-lg font-semibold">
+          <Button 
+            onClick={() => window.open('https://wa.me/5551996851101?text=' + encodeURIComponent('Olá! Gostaria de agendar uma consulta para gestão de frotas na SPA Automotiva.'), '_blank')}
+            className="bg-white text-[#be1e2d] hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
+          >
             Agendar Consulta
           </Button>
         </div>
