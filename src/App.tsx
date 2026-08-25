@@ -200,13 +200,15 @@ function App() {
     }
   ];
 
-  /* Tira do salão. Legenda nomeia o procedimento: numa marca técnica a
-     imagem sem rótulo é decoração, com rótulo é informação. */
+  /* Tira do salão. A legenda nomeia o SERVIÇO que o cliente pede, não o
+     procedimento que o mecânico executa: "bancada de ferramentas" e "aperto
+     com torquímetro" descrevem a oficina e não dizem nada a quem está
+     decidindo. O alt continua descrevendo a foto, que é outra função. */
   const workshopShots = [
     { src: oficinaMotor, caption: 'Revisão de motor', alt: 'Mecânico da SPA Automotiva trabalhando no compartimento do motor de um Renault com o capô aberto' },
-    { src: oficinaRoda, caption: 'Aperto com torquímetro', alt: 'Mecânico apertando os parafusos da roda de um veículo erguido no elevador' },
+    { src: oficinaRoda, caption: 'Rodízio de pneus', alt: 'Mecânico soltando os parafusos da roda de um veículo erguido no elevador' },
     { src: oficinaOleo, caption: 'Troca de óleo', alt: 'Óleo usado escorrendo do cárter de um veículo erguido para um recipiente de coleta' },
-    { src: oficinaFerramentas, caption: 'Bancada de ferramentas', alt: 'Gaveta aberta de um carrinho de ferramentas com chaves e soquetes organizados' }
+    { src: oficinaFerramentas, caption: 'Manutenção preventiva', alt: 'Gaveta aberta de um carrinho de ferramentas com chaves e soquetes organizados' }
   ];
 
   /* Ponte sintoma -> serviço. O visitante não é obrigado a saber o nome
@@ -216,7 +218,7 @@ function App() {
     { sinal: 'O volante puxa para um lado', detalhe: 'ou o pneu está gastando só de uma borda', servico: 'Geometria 3D e balanceamento', ancora: 'geometria-3d' },
     { sinal: 'Bate ou balança demais na lombada', detalhe: 'o carro parece solto na estrada', servico: 'Suspensão e direção', ancora: 'catalogo' },
     { sinal: 'Acendeu luz no painel', detalhe: 'o motor falha ou o consumo subiu', servico: 'Injeção eletrônica e descarbonização', ancora: 'catalogo' },
-    { sinal: 'O freio chia', detalhe: 'o pedal desceu ou o carro demora a parar', servico: 'Sistema de freios', ancora: 'catalogo' },
+    { sinal: 'O freio chia', detalhe: 'o pedal desceu ou o carro demora a parar', servico: 'Freios', ancora: 'catalogo' },
     { sinal: 'O ar não gela', detalhe: 'ou solta cheiro quando liga', servico: 'Ar condicionado e higienização', ancora: 'catalogo' },
     { sinal: 'O câmbio automático dá trancos', detalhe: 'ou demora a engatar', servico: 'Troca de óleo de câmbio automático', ancora: 'catalogo' },
     { sinal: 'O motor esquenta', detalhe: 'ou o reservatório baixa sozinho', servico: 'Sistema de arrefecimento', ancora: 'catalogo' },
