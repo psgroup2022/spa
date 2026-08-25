@@ -1,10 +1,32 @@
+import animate from 'tailwindcss-animate';
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   darkMode: ["class"],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Archivo', 'system-ui', 'sans-serif'],
+      },
       colors: {
+        // Paleta SPA: neutros em OKLCH puxados para o quente, no lugar
+        // da escala cinza padrão do Tailwind. Contraste verificado em AA.
+        spa: {
+          paper: '#f7f4f2',      // fundo da página
+          surface: '#fffdfc',    // cartões e campos
+          ink: '#251c19',        // títulos e seções escuras
+          body: '#5c514e',       // corpo de texto — 6.99:1 sobre paper
+          faint: '#786d6b',      // rótulos pequenos — 4.57:1 sobre paper
+          line: '#e2dddb',       // divisores
+          'line-strong': '#99908d', // bordas de campo — 3.08:1
+          'on-dark': '#c4bcb8',  // corpo sobre ink — 8.92:1
+          red: {
+            DEFAULT: '#be1e2d',  // vermelho da marca, do logo
+            deep: '#861116',     // hover e pressionado, branco a 9.97:1
+            bright: '#e1524c',   // só sobre fundo escuro, 4.38:1 sobre ink
+          },
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -80,5 +102,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate],
 }

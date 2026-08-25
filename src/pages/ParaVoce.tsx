@@ -1,6 +1,5 @@
-import { CheckCircle, Shield, Users, Award } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import InternalPageNavbar, { type SitePage } from '@/components/internal-page-navbar';
 
 interface ParaVoceProps {
@@ -9,24 +8,6 @@ interface ParaVoceProps {
 }
 
 export default function ParaVoce({ onNavigate, currentPage }: ParaVoceProps) {
-  const diferenciaisDestaque = [
-    {
-      icon: <Shield className="w-8 h-8 text-[#be1e2d]" />,
-      title: 'Super Garantia',
-      description: 'Serviços padronizados com garantia completa'
-    },
-    {
-      icon: <Award className="w-8 h-8 text-[#be1e2d]" />,
-      title: '20+ Anos',
-      description: 'Tradição em reparação automotiva desde 2006'
-    },
-    {
-      icon: <Users className="w-8 h-8 text-[#be1e2d]" />,
-      title: 'Profissionais Treinados',
-      description: 'Equipe especializada e qualificada'
-    }
-  ];
-
   const servicosPrincipais = [
     'Manutenção e recarga de gás do ar condicionado',
     'Higienização ar condicionados',
@@ -61,80 +42,81 @@ export default function ParaVoce({ onNavigate, currentPage }: ParaVoceProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f4f5f7]">
+    <div className="min-h-screen bg-spa-paper">
       {/* Noise Overlay */}
       <div className="noise-overlay" />
 
       <InternalPageNavbar onNavigate={onNavigate} currentPage={currentPage} />
 
-      {/* Header */}
-      <div className="bg-[#be1e2d] text-white pt-32 pb-16">
+      {/* Cabeçalho */}
+      <header className="pt-36 pb-14 border-b border-spa-line">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4">Para Você</h1>
-          <p className="text-xl opacity-90">Seu carro em boas mãos, com serviços executados para facilitar sua compreensão e manutenção.</p>
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-10 h-px bg-spa-red" />
+            <span className="label-spec">Carro particular</span>
+          </div>
+          <h1 className="text-4xl sm:text-6xl font-display tracking-tight text-spa-ink leading-[1.02] mb-6">
+            Para Você
+          </h1>
+          <p className="text-lg text-spa-body max-w-[58ch] leading-relaxed">
+            Revisão e manutenção do carro de uso diário, com o defeito explicado
+            antes do orçamento.
+          </p>
         </div>
-      </div>
+      </header>
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Diferenciais */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold mb-12 text-[#1f2937]">O que nos diferencia</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {diferenciaisDestaque.map((item, index) => (
-              <Card key={index} className="card-spa hover:shadow-lg transition-shadow">
-                <CardContent className="p-8">
-                  <div className="mb-4">{item.icon}</div>
-                  <h3 className="text-xl font-semibold mb-2 text-[#1f2937]">{item.title}</h3>
-                  <p className="text-[#6b7280]">{item.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Compromissos */}
-        <div className="mb-16 bg-white rounded-2xl p-8 border border-[#e5e7eb]">
-          <h2 className="text-2xl font-bold mb-8 text-[#1f2937]">Nosso Compromisso com você</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Compromissos como lista corrida. Antes eram três cartões iguais
+            com ícone por cima do título, mais um cartão aninhado com a lista
+            dentro: dois padrões de template de uma vez. */}
+        <div className="mb-20 grid grid-cols-1 lg:grid-cols-12 gap-x-16 gap-y-8">
+          <h2 className="lg:col-span-4 text-3xl font-display tracking-tight text-spa-ink leading-[1.05]">
+            O compromisso,<br />item por item.
+          </h2>
+          <ul className="lg:col-span-8 border-t border-spa-line">
             {compromissos.map((item, index) => (
-              <div key={index} className="flex items-start gap-4">
-                <CheckCircle className="w-6 h-6 text-[#be1e2d] flex-shrink-0 mt-1" />
-                <span className="text-[#1f2937]">{item}</span>
-              </div>
+              <li
+                key={index}
+                className="grid grid-cols-[2.5rem_1fr] gap-x-5 items-baseline py-5 border-b border-spa-line"
+              >
+                <span className="label-spec tnum">{String(index + 1).padStart(2, '0')}</span>
+                <span className="text-spa-ink font-medium">{item}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
 
         {/* Serviços Completos */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold mb-12 text-[#1f2937]">Serviços Completos</h2>
-          <p className="text-lg text-[#6b7280] mb-8">
-            Mecânica completa com garantia e elevada qualidade
+          <h2 className="text-3xl font-display tracking-tight mb-4 text-spa-ink">Serviços Completos</h2>
+          <p className="text-spa-body mb-10 max-w-[58ch] leading-relaxed">
+            Vinte e dois procedimentos executados na oficina, do ar condicionado
+            ao catalisador.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {servicosPrincipais.map((servico, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 p-4 bg-white rounded-lg border border-[#e5e7eb] hover:border-[#be1e2d] transition-colors"
+                className="flex items-center gap-3 p-4 bg-spa-surface rounded-lg border border-spa-line hover:border-spa-red transition-colors"
               >
-                <CheckCircle className="w-5 h-5 text-[#be1e2d] flex-shrink-0" />
-                <span className="text-[#1f2937]">{servico}</span>
+                <CheckCircle className="w-5 h-5 text-spa-red flex-shrink-0" />
+                <span className="text-spa-ink">{servico}</span>
               </div>
             ))}
           </div>
-          <p className="text-sm text-[#6b7280] mt-8 italic">
+          <p className="text-sm text-spa-body mt-8 italic">
             * Alguns serviços são realizados fora da empresa com garantia SPA
           </p>
         </div>
 
         {/* CTA */}
-        <div className="bg-gradient-to-r from-[#be1e2d] to-[#8f1320] text-white rounded-2xl p-12 text-center">
+        <div className="bg-gradient-to-r from-spa-red to-spa-red-deep text-white rounded-2xl p-12 text-center">
           <h3 className="text-3xl font-bold mb-4">Pronto para cuidar do seu carro?</h3>
           <p className="text-xl mb-8 opacity-90">Entre em contato conosco e agende seu serviço</p>
           <Button 
             onClick={() => window.open('https://wa.me/5551981833205?text=' + encodeURIComponent('Olá! Gostaria de agendar um serviço para meu veículo na SPA Automotiva.'), '_blank')}
-            className="bg-white text-[#be1e2d] hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
+            className="bg-spa-surface text-spa-red hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
           >
             Agendar Serviço
           </Button>

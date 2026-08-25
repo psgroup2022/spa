@@ -7,19 +7,28 @@
    ========================================= */
 
 :root {
-  /* Brand Colors */
-  --spa-red: #be1e2d;
-  --spa-red-dark: #8f1320;
-  --spa-red-light: #e63946;
-  --spa-cream: #f4f5f7;
-  --spa-surface: #ffffff;
-  --spa-ink: #1f2937;
-  --spa-muted: #6b7280;
-  --spa-line: #e5e7eb;
-  
-  /* Motion */
+  /* Cor
+     O vermelho vem do logo e não se mexe. Os neutros foram redesenhados
+     em OKLCH puxados para o quente (hue 35-55): a escala cinza padrão do
+     Tailwind é azulada e fria, e deixava a página com cara de template.
+     Contraste conferido em WCAG AA — ver PRODUCT.md. */
+  --spa-red: oklch(50.8% 0.191 26);
+  --spa-red-deep: oklch(40% 0.15 26);
+  /* O vermelho da marca não atinge 3:1 sobre fundo escuro.
+     Esta é a versão clara, só para uso sobre as seções ink. */
+  --spa-red-bright: oklch(63% 0.18 26);
+
+  --spa-paper: oklch(96.8% 0.0045 55);
+  --spa-surface: oklch(99.5% 0.002 55);
+  --spa-ink: oklch(23.5% 0.015 35);
+  --spa-body: oklch(44.5% 0.016 35);
+  --spa-faint: oklch(54.5% 0.014 35);
+  --spa-line: oklch(90% 0.006 45);
+  --spa-line-strong: oklch(66% 0.012 40);
+  --spa-on-dark: oklch(80% 0.01 45);
+
+  /* Motion: só saída exponencial. Nada de bounce numa marca técnica. */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* =========================================
@@ -35,12 +44,20 @@ html {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background-color: var(--spa-cream);
-  color: var(--spa-ink);
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-variation-settings: 'wdth' 100;
+  background-color: var(--spa-paper);
+  color: var(--spa-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Números tabulares: especificação técnica não dança de largura. */
+.tnum,
+table,
+time {
+  font-variant-numeric: tabular-nums;
 }
 
 /* =========================================
@@ -205,7 +222,7 @@ body {
 }
 
 .btn-primary:hover {
-  background: var(--spa-red-dark);
+  background: var(--spa-red-deep);
   transform: translateY(-2px);
   box-shadow: 0 10px 30px -10px rgba(190, 30, 45, 0.5);
 }
@@ -240,7 +257,7 @@ body {
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   background: transparent;
-  color: var(--spa-muted);
+  color: var(--spa-faint);
   border: none;
   font-size: 0.875rem;
   font-weight: 500;
@@ -293,7 +310,7 @@ body {
 }
 
 .btn-beam:hover .btn-beam-inner {
-  background: var(--spa-cream);
+  background: var(--spa-paper);
 }
 
 /* =========================================
@@ -311,40 +328,7 @@ body {
 .card-spa:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
-  border-color: var(--spa-red-light);
-}
-
-/* Flashlight Card */
-.flashlight-card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 1rem;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.4s var(--ease-out-expo);
-}
-
-.flashlight-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-          rgba(190, 30, 45, 0.08),
-          transparent 40%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.flashlight-card:hover::before {
-  opacity: 1;
-}
-
-.flashlight-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.1);
+  border-color: var(--spa-red);
 }
 
 /* Glass Card */
@@ -384,12 +368,12 @@ body {
 
 .badge-neutral {
   background: #f5f5f4;
-  color: var(--spa-muted);
+  color: var(--spa-faint);
 }
 
 .badge-outline {
   border: 1px solid var(--spa-line);
-  color: var(--spa-muted);
+  color: var(--spa-faint);
 }
 
 /* =========================================
@@ -410,34 +394,28 @@ body {
 }
 
 .navbar-spa.scrolled {
-  background: rgba(255, 255, 255, 0.95);
+  background: color-mix(in oklch, var(--spa-surface) 94%, transparent);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--spa-line);
   padding: 0.75rem 2rem;
-  box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
 }
 
-/* =========================================
-   MARQUEE
-   ========================================= */
-
-.marquee-container {
-  display: flex;
-  overflow: hidden;
-  user-select: none;
+/* Sobre o vídeo do hero o menu precisa ser claro, senão o texto cinza
+   fica em cima de imagem escura e reprova em contraste. */
+.navbar-spa .nav-link {
+  color: rgba(255, 255, 255, 0.85);
 }
 
-.marquee-content {
-  flex-shrink: 0;
-  display: flex;
-  justify-content: space-around;
-  min-width: 100%;
-  animation: marquee 30s linear infinite;
+.navbar-spa .nav-link:hover {
+  color: #fff;
 }
 
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+.navbar-spa.scrolled .nav-link {
+  color: var(--spa-body);
+}
+
+.navbar-spa.scrolled .nav-link:hover {
+  color: var(--spa-ink);
 }
 
 /* =========================================
@@ -479,17 +457,34 @@ body {
    UTILITIES
    ========================================= */
 
-.text-gradient {
-  background: linear-gradient(135deg, var(--spa-red) 0%, var(--spa-red-dark) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Títulos: Archivo no eixo de largura levemente expandido.
+   Referência física: placa de especificação rebitada numa máquina-ferramenta. */
+@layer components {
+  .font-display {
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-variation-settings: 'wdth' 112;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
 }
 
-.font-display {
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+/* Rótulos técnicos. Substitui o font-mono, que numa oficina vira fantasia
+   de terminal de desenvolvedor (ver bans em brand.md). */
+/* Em @layer components para que utilitários do Tailwind como text-white
+   consigam sobrescrever a cor. Fora da camada, esta regra vem depois das
+   utilities no arquivo e vence a cascata, o que deixava o rótulo cinza
+   sobre fundo vermelho. */
+@layer components {
+  .label-spec {
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-variation-settings: 'wdth' 87;
+    font-weight: 600;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+    color: var(--spa-faint);
+  }
 }
 
 /* Custom Scrollbar */
@@ -498,7 +493,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--spa-cream);
+  background: var(--spa-paper);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -507,29 +502,13 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--spa-muted);
+  background: var(--spa-line-strong);
 }
 
 /* Selection */
 ::selection {
   background: var(--spa-red);
   color: white;
-}
-
-/* Hero Gradient Text */
-.hero-gradient-text {
-  background: linear-gradient(135deg, #1f2937 0%, #be1e2d 50%, #8f1320 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 200% 200%;
-  animation: gradient-shift 8s ease infinite;
-}
-
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 /* Perspective */
@@ -541,28 +520,71 @@ body {
   transform-style: preserve-3d;
 }
 
+/* Tokens do shadcn amarrados à paleta SPA.
+   Vinham na escala azulada padrão e com branco puro; agora acompanham
+   os neutros quentes, senão Input, Dialog e Button destoam do resto. */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 220 13% 16%;
-    --card: 0 0% 100%;
-    --card-foreground: 220 13% 16%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 13% 16%;
-    --primary: 355 73% 43%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 220 13% 16%;
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
-    --accent: 355 73% 43%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 355 73% 43%;
+    --background: 24 24% 95.9%;
+    --foreground: 15 19% 12.2%;
+    --card: 20 100% 99.4%;
+    --card-foreground: 15 19% 12.2%;
+    --popover: 20 100% 99.4%;
+    --popover-foreground: 15 19% 12.2%;
+    --primary: 354 73% 43.1%;
+    --primary-foreground: 20 100% 99.4%;
+    --secondary: 17 11% 87.3%;
+    --secondary-foreground: 15 19% 12.2%;
+    --muted: 17 11% 87.3%;
+    --muted-foreground: 9 6% 44.5%;
+    --accent: 354 73% 43.1%;
+    --accent-foreground: 20 100% 99.4%;
+    --destructive: 354 73% 43.1%;
+    --destructive-foreground: 20 100% 99.4%;
+    --border: 17 11% 87.3%;
+    --input: 15 6% 57.6%;
+    --ring: 354 73% 43.1%;
     --radius: 0.75rem;
+  }
+}
+
+/* =========================================
+   ACESSIBILIDADE
+   ========================================= */
+
+/* Foco de teclado visível. Sem outline:none sem substituto. */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--spa-red);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Quem pediu menos movimento no sistema recebe a página parada:
+   sem reveal, sem parallax, sem vídeo em loop. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale,
+  .text-reveal-content {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  video {
+    display: none;
   }
 }
 

@@ -1,23 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { 
   Car,
-  Phone, 
-  MapPin, 
   Calendar, 
-  ChevronRight, 
   Star, 
   CheckCircle, 
   Menu, 
   X,
   ArrowRight,
-  Clock,
-  Award,
-  Users,
+  ArrowUpRight,
+  Instagram,
   MessageCircle,
-  Wrench,
-  Sparkles,
-  Snowflake,
-  Cog,
   Gauge,
   Target,
   Fuel,
@@ -129,50 +121,52 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const services = [
+  const services: Array<{
+    title: string;
+    description: string;
+    page?: 'para-voce' | 'para-empresa';
+    anchor: string;
+    highlight?: boolean;
+  }> = [
     {
-      icon: <Car className="w-8 h-8" />,
       title: 'Para Você',
-      description: 'Seu carro em boas mãos, com serviços executados para facilitar sua compreensão e manutenção.',
-      link: '#contato',
-      highlight: false
+      description:
+        'Revisão, manutenção corretiva e preventiva do carro de uso diário. O defeito é nomeado antes de qualquer peça ser trocada.',
+      page: 'para-voce',
+      anchor: 'contato'
     },
     {
-      icon: <Users className="w-8 h-8" />,
       title: 'Para Empresa',
-      description: 'Equipe especializada para atendimento e manutenção de frotas de todas as montadoras.',
-      link: '#contato',
-      highlight: false
+      description:
+        'Atendimento de frota de todas as montadoras, com controle de manutenção por veículo e previsibilidade de custo.',
+      page: 'para-empresa',
+      anchor: 'contato'
     },
     {
-      icon: <Wrench className="w-8 h-8" />,
       title: 'Mecânica Geral',
-      description: 'Motor, injeção eletrônica, suspensão, direção, freio, câmbio e embreagem com diagnóstico preciso.',
-      link: '#catalogo',
-      highlight: false
+      description:
+        'Motor, injeção eletrônica, suspensão, direção, freio, câmbio e embreagem.',
+      anchor: 'catalogo'
     },
     {
-      icon: <Target className="w-8 h-8" />,
-      title: 'Geometria 3D',
-      description: 'Alinhamento computadorizado 3D e balanceamento: direção estável e pneus com desgaste uniforme.',
-      link: '#geometria-3d',
+      title: 'Geometria 3D e Balanceamento',
+      description:
+        'Alinhamento computadorizado por câmeras. Cambagem, cáster e convergência das quatro rodas medidas e corrigidas.',
+      anchor: 'geometria-3d',
       highlight: true
     }
   ];
 
   const serviceCatalog = [
     {
-      icon: <Cog className="w-7 h-7" />,
       title: 'Mecânica e Reparos',
       items: ['Motor', 'Injeção Eletrônica', 'Suspensão', 'Direção', 'Freio', 'Câmbio', 'Embreagem', 'Geometria 3D e Balanceamento']
     },
     {
-      icon: <Snowflake className="w-7 h-7" />,
       title: 'Manutenção e Peças',
       items: ['Ar Condicionado', 'Óleos', 'Filtros', 'Pneus', 'Baterias', 'Alternador', 'Motor de Partida']
     },
     {
-      icon: <Sparkles className="w-7 h-7" />,
       title: 'Serviços Especiais',
       items: [
         'Higienização do sistema de ar condicionado',
@@ -207,11 +201,14 @@ function App() {
     }
   ];
 
-  const differentials = [
-    { icon: <Award className="w-6 h-6" />, title: '20+ Anos', description: 'De experiência no mercado' },
-    { icon: <Users className="w-6 h-6" />, title: '10k+', description: 'Clientes atendidos' },
-    { icon: <CheckCircle className="w-6 h-6" />, title: '100%', description: 'Satisfação' },
-    { icon: <Clock className="w-6 h-6" />, title: 'Agilidade', description: 'Atendimento rápido' }
+  /* Ficha da oficina: só dado que o visitante consegue conferir sozinho,
+     por telefone, no Google Maps ou indo até lá. Nada de "100% satisfação". */
+  const workshopFacts = [
+    { term: 'Em operação desde', value: '2006' },
+    { term: 'Endereço', value: 'Av. Alcides Maia, 199 · Porto Alegre / RS' },
+    { term: 'Atendimento', value: 'Segunda a sexta, 8h às 12h e 13h30 às 18h' },
+    { term: 'Perfis atendidos', value: 'Carro particular e frota, todas as montadoras' },
+    { term: 'Telefone', value: '(51) 3012-3360 · WhatsApp (51) 98183-3205' }
   ];
 
   const testimonials = [
@@ -255,7 +252,7 @@ function App() {
 
 
   return (
-    <div className="min-h-screen bg-[#f4f5f7]">
+    <div className="min-h-screen bg-spa-paper">
       {/* Noise Overlay */}
       <div className="noise-overlay" />
 
@@ -267,16 +264,16 @@ function App() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-          <button onClick={() => scrollToSection('servicos')} className="text-base font-mono uppercase tracking-widest text-[#6b7280] hover:text-[#1f2937] transition-colors">
+          <button onClick={() => scrollToSection('servicos')} className="nav-link text-[15px] font-medium tracking-tight transition-colors">
             Serviços
           </button>
-          <button onClick={() => scrollToSection('sobre')} className="text-base font-mono uppercase tracking-widest text-[#6b7280] hover:text-[#1f2937] transition-colors">
+          <button onClick={() => scrollToSection('sobre')} className="nav-link text-[15px] font-medium tracking-tight transition-colors">
             Quem Somos
           </button>
-          <button onClick={() => scrollToSection('depoimentos')} className="text-base font-mono uppercase tracking-widest text-[#6b7280] hover:text-[#1f2937] transition-colors">
+          <button onClick={() => scrollToSection('depoimentos')} className="nav-link text-[15px] font-medium tracking-tight transition-colors">
             Depoimentos
           </button>
-          <button onClick={() => scrollToSection('contato')} className="text-base font-mono uppercase tracking-widest text-[#6b7280] hover:text-[#1f2937] transition-colors">
+          <button onClick={() => scrollToSection('contato')} className="nav-link text-[15px] font-medium tracking-tight transition-colors">
             Contato
           </button>
         </div>
@@ -298,7 +295,7 @@ function App() {
               </DialogHeader>
               <form onSubmit={handleDialogSubmit} className="space-y-4 pt-4">
                 <div>
-                  <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Nome</label>
+                  <label className="label-spec text-spa-body mb-2 block">Nome</label>
                   <Input 
                     placeholder="Seu nome" 
                     value={dialogNome}
@@ -306,7 +303,7 @@ function App() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Telefone</label>
+                  <label className="label-spec text-spa-body mb-2 block">Telefone</label>
                   <Input 
                     placeholder="(51) 99999-9999" 
                     value={dialogTelefone}
@@ -314,9 +311,9 @@ function App() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Serviço</label>
+                  <label className="label-spec text-spa-body mb-2 block">Serviço</label>
                   <select 
-                    className="w-full h-10 px-3 rounded-md border border-[#e5e7eb] bg-white text-sm"
+                    className="w-full h-10 px-3 rounded-md border border-spa-line bg-spa-surface text-sm"
                     value={dialogServico}
                     onChange={(e) => setDialogServico(e.target.value)}
                   >
@@ -340,7 +337,7 @@ function App() {
                     <option>Outro</option>
                   </select>
                 </div>
-                <Button type="submit" className="w-full bg-[#be1e2d] hover:bg-[#8f1320] text-white rounded-full">
+                <Button type="submit" className="w-full bg-spa-red hover:bg-spa-red-deep text-white rounded-full">
                   Solicitar Agendamento
                 </Button>
               </form>
@@ -359,7 +356,7 @@ function App() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-white pt-20 px-6 md:hidden">
+        <div className="fixed inset-0 z-50 bg-spa-surface pt-20 px-6 md:hidden">
           <div className="flex flex-col gap-6">
             <button onClick={() => scrollToSection('servicos')} className="text-lg font-medium text-left">Serviços</button>
             <button onClick={() => scrollToSection('sobre')} className="text-lg font-medium text-left">Quem Somos</button>
@@ -370,7 +367,7 @@ function App() {
                 sendWhatsApp('Olá! Gostaria de agendar um serviço na SPA Automotiva.');
                 setIsMobileMenuOpen(false);
               }}
-              className="w-full bg-[#be1e2d] hover:bg-[#8f1320] text-white rounded-full mt-4"
+              className="w-full bg-spa-red hover:bg-spa-red-deep text-white rounded-full mt-4"
             >
               <Calendar className="w-4 h-4 mr-2" />
               Agendar Serviço
@@ -381,8 +378,10 @@ function App() {
 
       {/* Hero Section */}
       <section ref={heroRef} className="relative h-screen min-h-screen flex items-start md:items-center justify-center overflow-hidden pt-24 md:pt-0">
-        {/* Video Background */}
-        <div className="absolute inset-0 z-0">
+        {/* Fundo em vídeo. O ink por baixo garante que, com
+            prefers-reduced-motion, o hero continue escuro e o texto branco
+            legível mesmo sem o vídeo. */}
+        <div className="absolute inset-0 z-0 bg-spa-ink">
           <video
             autoPlay
             muted
@@ -392,291 +391,173 @@ function App() {
           >
             <source src={videoBg} type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-black/70" />
+          {/* Máscara em duas camadas: uma base uniforme mais um gradiente
+              que escurece o lado do texto. O vídeo tem trechos claros, e sem
+              isso o título vermelho não fecha 3:1 sobre eles. */}
+          <div className="absolute inset-0 bg-spa-ink/70" />
+          <div className="absolute inset-0 bg-gradient-to-t from-spa-ink via-spa-ink/75 to-spa-ink/45 lg:bg-gradient-to-r lg:from-spa-ink lg:via-spa-ink/80 lg:to-spa-ink/35" />
         </div>
         
         {/* Background Grid (subtle over video) */}
         <div className="absolute inset-0 bg-grid opacity-20 z-[1]" />
         
-        {/* Floating Decorative Elements */}
-        <div className="absolute top-32 right-20 w-20 h-20 border border-white/20 rounded-full animate-spin-slow hidden lg:block z-[2]" />
-        <div className="absolute bottom-40 left-20 w-32 h-32 border border-white/10 rounded-full animate-spin-slow hidden lg:block z-[2]" style={{ animationDuration: '12s' }} />
-
         {/* Main Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-8 md:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left: Text Content */}
             <div className="space-y-8 z-[3]">
-              {/* Badge */}
-              <div className="reveal">
-                <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-xs font-mono uppercase tracking-widest text-white/80 shadow-sm">
-                  <span className="w-2 h-2 bg-[#be1e2d] rounded-full animate-pulse" />
-                  Desde 2006
-                </span>
-              </div>
-
-              {/* Main Title */}
-              <h1 className="font-display text-5xl md:text-7xl tracking-tight leading-none" id="hero-title">
+              {/* Título. O nome do bairro e o ano fazem o trabalho que
+                  "excelência" e "referência" não fazem: são verificáveis. */}
+              <h1 className="font-display text-5xl md:text-7xl tracking-tight leading-[0.95]" id="hero-title">
                 <span className="text-reveal-wrapper block">
-                  <span className="text-reveal-content text-white">Cuidamos </span>
+                  <span className="text-reveal-content text-white">Diagnóstico</span>
                 </span>
                 <span className="text-reveal-wrapper block">
-                  <span className="text-reveal-content delay-100" style={{ color: 'transparent', WebkitTextStroke: '1.5px rgba(255,255,255,0.4)' }}>do seu </span>
+                  <span className="text-reveal-content delay-100 text-white">antes do</span>
                 </span>
                 <span className="text-reveal-wrapper block">
-                  <span className="text-reveal-content delay-200 text-[#be1e2d]">carro</span>
+                  <span className="text-reveal-content delay-200 text-spa-red-bright">orçamento.</span>
                 </span>
               </h1>
 
-              {/* Description */}
-              <p className="text-lg md:text-xl text-white/70 max-w-lg leading-relaxed reveal delay-300">
-                Há mais de 20 anos oferecendo serviços automotivos de excelência em Porto Alegre.
-                <span className="text-white font-medium"> Sua segurança é nossa prioridade.</span>
+              <p className="text-lg md:text-xl text-white/75 max-w-[38ch] leading-relaxed reveal delay-300">
+                Oficina na Av. Alcides Maia desde 2006. Motor, injeção, suspensão,
+                freio, câmbio, ar condicionado e geometria 3D, para carro de família
+                e para frota.
               </p>
 
-              {/* CTA Buttons */}
               <div className="flex flex-wrap gap-4 reveal delay-400">
-                <button onClick={() => scrollToSection('contato')} className="btn-primary">
-                  <span>Agendar Serviço</span>
+                <button
+                  onClick={() => sendWhatsApp('Olá! Gostaria de agendar um serviço na SPA Automotiva.')}
+                  className="btn-primary"
+                >
+                  <span>Falar no WhatsApp</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
-                <button onClick={() => scrollToSection('servicos')} className="px-6 py-3.5 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-semibold hover:bg-white/20 transition-all">
-                  <span>Conhecer Serviços</span>
-                </button>
-              </div>
-
-              {/* Stats */}
-              <div className="flex gap-8 pt-8 border-t border-white/20 reveal delay-500">
-                <div>
-                  <div className="text-3xl font-display font-bold text-white">20+</div>
-                  <div className="text-xs font-mono uppercase tracking-wider text-white/60 mt-1">Anos</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-display font-bold text-white">10k+</div>
-                  <div className="text-xs font-mono uppercase tracking-wider text-white/60 mt-1">Clientes</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-display font-bold text-[#be1e2d]">100%</div>
-                  <div className="text-xs font-mono uppercase tracking-wider text-white/60 mt-1">Satisfação</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Feature Cards */}
-            <div className="relative perspective-1000 reveal delay-200 z-[3]">
-              <div className="relative">
-                {/* Main Feature Card */}
-                <div 
-                  className="bg-white/10 backdrop-blur-xl border border-white/20 p-2 rounded-2xl"
-                  onMouseMove={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
-                    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
-                  }}
+                <a
+                  href="tel:+555130123360"
+                  className="px-6 py-3.5 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-semibold hover:bg-white/20 transition-colors"
                 >
-                  <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
-                    <img 
-                      src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=80" 
-                      alt="Mecânico trabalhando"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    
-                    {/* Floating Badge */}
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-xl">
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-[#be1e2d] rounded-full flex items-center justify-center text-white">
-                            <CheckCircle className="w-6 h-6" />
-                          </div>
-                          <div>
-                            <div className="font-bold text-white">Serviço Certificado</div>
-                            <div className="text-xs text-white/70">Garantia em todos os serviços</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Floating Stats Card */}
-                <div className="absolute -bottom-8 -left-8 bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-xl shadow-xl hidden lg:block">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-[#be1e2d] rounded-lg flex items-center justify-center text-white">
-                      <Star className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="text-lg font-bold text-white">4.9/5</div>
-                      <div className="text-xs text-white/70">Avaliação média</div>
-                    </div>
-                  </div>
-                </div>
+                  (51) 3012-3360
+                </a>
               </div>
+
+              {/* Só o que dá para conferir: endereço, horário e o ano de abertura. */}
+              <dl className="flex flex-wrap gap-x-10 gap-y-6 pt-8 border-t border-white/20 reveal delay-500">
+                <div>
+                  <dt className="label-spec text-white/70">Desde</dt>
+                  <dd className="text-2xl font-display text-white tnum mt-1">2006</dd>
+                </div>
+                <div>
+                  <dt className="label-spec text-white/70">Endereço</dt>
+                  <dd className="text-2xl font-display text-white mt-1">Alcides Maia, 199</dd>
+                </div>
+                <div>
+                  <dt className="label-spec text-white/70">Seg a Sex</dt>
+                  <dd className="text-2xl font-display text-white tnum mt-1">8h–18h</dd>
+                </div>
+              </dl>
             </div>
+
+            {/* Foto sem moldura de vidro e sem selo flutuante por cima:
+                os dois eram enfeite de template e não afirmavam nada. */}
+            <figure className="relative reveal delay-200 z-[3]">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/15">
+                <img
+                  src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=1000&q=80"
+                  alt="Mecânico trabalhando sob o capô de um veículo em uma oficina"
+                  className="w-full h-full object-cover"
+                  loading="eager"
+                />
+              </div>
+              <figcaption className="label-spec text-white/70 mt-4">
+                Av. Alcides Maia, 199 · Porto Alegre / RS
+              </figcaption>
+            </figure>
           </div>
         </div>
       </section>
 
-      {/* Marquee Section */}
-      <div className="py-6 bg-[#1f2937] overflow-hidden border-y border-[#1f2937]">
-        <div className="marquee-container">
-          <div className="marquee-content items-center">
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Motor</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Injeção Eletrônica</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Suspensão</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Direção</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Freio</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Câmbio</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Embreagem</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Ar Condicionado</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Óleos</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Filtros</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Pneus</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Baterias</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Alternador</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Motor de Partida</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-          </div>
-          <div className="marquee-content items-center">
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Motor</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Injeção Eletrônica</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Suspensão</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Direção</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Freio</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Câmbio</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Embreagem</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Ar Condicionado</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Óleos</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Filtros</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Pneus</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Baterias</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Alternador</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Motor de Partida</span>
-            <Star className="text-[#be1e2d] w-5 h-5" />
-          </div>
-        </div>
-      </div>
-
       {/* Services Section */}
-      <section id="servicos" className="relative py-24 bg-white border-b border-[#e5e7eb]">
+      <section id="servicos" className="relative py-24 bg-spa-surface border-b border-spa-line">
         <div className="absolute inset-0 bg-grid opacity-30" />
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
-          {/* Section Header */}
-          <div className="flex items-center gap-4 mb-16 reveal">
-            <div className="w-12 h-[2px] bg-[#be1e2d]" />
-            <span className="text-xs font-mono uppercase tracking-widest text-[#6b7280]">Nossos Serviços</span>
-          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            {/* Left: Title */}
-            <div className="lg:col-span-4 reveal">
-              <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-6">
-                Serviços <span className="text-[#be1e2d]">Especializados</span>
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-16 gap-y-12">
+            {/* Esquerda: título */}
+            <div className="lg:col-span-4 reveal lg:sticky lg:top-32 lg:self-start">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-10 h-px bg-spa-red" />
+                <span className="label-spec">Serviços</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-display tracking-tight mb-6 text-spa-ink leading-[1.02]">
+                Do carro de família<br />à frota inteira.
               </h2>
-              <p className="text-[#6b7280] leading-relaxed mb-8">
-                Oferecemos uma ampla gama de serviços automotivos, desde manutenções preventivas 
-                até reparos complexos, sempre com a qualidade que você merece.
+              <p className="text-spa-body leading-relaxed max-w-[46ch]">
+                Quatro frentes de atendimento. A lista completa do que a oficina
+                executa vem logo abaixo, item por item, sem letra miúda.
               </p>
-              <button onClick={() => scrollToSection('contato')} className="btn-primary">
-                <span>Agendar Agora</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
             </div>
 
-            {/* Right: Service Cards */}
-            <div className="lg:col-span-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {services.map((service, index) => (
-                  <div 
-                    key={service.title}
-                    className={`flashlight-card p-6 group cursor-pointer ${
-                      service.highlight ? 'ring-2 ring-[#be1e2d] shadow-[0_24px_50px_-20px_rgba(190,30,45,0.45)]' : ''
-                    }`}
-                    style={{ animationDelay: `${index * 100}ms` }}
+            {/* Direita: índice numerado.
+                Antes era uma grade de quatro cartões iguais com ícone em
+                quadradinho arredondado, que é assinatura de template. Virou
+                índice de manual: separado por fio, numerado, e cada linha é
+                um <button> de verdade, alcançável pelo teclado. */}
+            <ul className="lg:col-span-8 border-b border-spa-line">
+              {services.map((service, index) => (
+                <li key={service.title} className="reveal" style={{ transitionDelay: `${index * 80}ms` }}>
+                  <button
+                    type="button"
                     onClick={() => {
-                      if (service.title === 'Para Você') {
-                        navigateToPage('para-voce');
-                      } else if (service.title === 'Para Empresa') {
-                        navigateToPage('para-empresa');
-                      } else if (service.link === '#geometria-3d') {
-                        scrollToSection('geometria-3d');
-                      } else if (service.link === '#catalogo') {
-                        scrollToSection('catalogo');
+                      if (service.page) {
+                        navigateToPage(service.page);
                       } else {
-                        scrollToSection('contato');
+                        scrollToSection(service.anchor);
                       }
                     }}
-                    onMouseMove={(e) => {
-                      const rect = e.currentTarget.getBoundingClientRect();
-                      const x = e.clientX - rect.left;
-                      const y = e.clientY - rect.top;
-                      e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
-                      e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
-                    }}
+                    className="group w-full text-left grid grid-cols-[2.5rem_1fr_auto] gap-x-5 items-start py-8 border-t border-spa-line transition-colors hover:bg-spa-paper focus-visible:bg-spa-paper"
                   >
-                    {service.highlight && (
-                      <span className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#be1e2d] text-white text-[10px] font-mono uppercase tracking-widest z-[3]">
-                        Novo
+                    <span
+                      className={`label-spec tnum pt-2 transition-colors ${
+                        service.highlight ? 'text-spa-red' : 'group-hover:text-spa-red'
+                      }`}
+                    >
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+
+                    <span className="min-w-0">
+                      <span className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
+                        <h3 className="text-2xl md:text-3xl font-display text-spa-ink tracking-tight">
+                          {service.title}
+                        </h3>
+                        {service.highlight && (
+                          <span className="label-spec text-spa-red border border-spa-red/40 rounded-full px-2.5 py-0.5">
+                            Novo
+                          </span>
+                        )}
                       </span>
-                    )}
-                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 transition-all duration-300 ${
-                      service.highlight
-                        ? 'bg-[#be1e2d] text-white'
-                        : 'bg-[#be1e2d]/10 text-[#be1e2d] group-hover:bg-[#be1e2d] group-hover:text-white'
-                    }`}>
-                      {service.icon}
-                    </div>
-                    <h3 className="text-xl font-bold text-[#1f2937] mb-2">{service.title}</h3>
-                    <p className="text-[#6b7280] text-sm leading-relaxed mb-4">{service.description}</p>
-                    <div className="flex items-center gap-2 text-[#be1e2d] text-sm font-medium">
-                      <span>Saiba mais</span>
-                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+                      <span className="block text-spa-body leading-relaxed mt-3 max-w-[62ch]">
+                        {service.description}
+                      </span>
+                    </span>
+
+                    <ArrowUpRight className="w-6 h-6 text-spa-line-strong shrink-0 mt-2 transition-all duration-300 group-hover:text-spa-red group-hover:-translate-y-1 group-hover:translate-x-1" />
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Catálogo completo de serviços */}
           <div id="catalogo" className="mt-24 scroll-mt-28">
-            <div className="text-center mb-12 reveal">
-              <div className="flex items-center justify-center gap-4 mb-6">
-                <div className="w-12 h-[2px] bg-[#be1e2d]" />
-                <span className="text-xs font-mono uppercase tracking-widest text-[#6b7280]">Tudo que fazemos</span>
-                <div className="w-12 h-[2px] bg-[#be1e2d]" />
+            <div className="max-w-[54ch] mb-12 reveal">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-10 h-px bg-spa-red" />
+                <span className="label-spec">Lista completa</span>
               </div>
-              <h3 className="text-3xl md:text-4xl font-display font-bold tracking-tight">
-                Catálogo <span className="text-[#be1e2d]">completo</span>
+              <h3 className="text-3xl md:text-4xl font-display tracking-tight text-spa-ink leading-[1.05]">
+                Tudo que entra na oficina.
               </h3>
             </div>
 
@@ -684,28 +565,29 @@ function App() {
               {serviceCatalog.map((group, index) => (
                 <div
                   key={group.title}
-                  className="group relative overflow-hidden bg-white border-2 border-[#e5e7eb] rounded-2xl p-8 pt-10 shadow-[0_2px_12px_-6px_rgba(0,0,0,0.08)] hover:border-[#be1e2d] hover:shadow-[0_28px_60px_-20px_rgba(190,30,45,0.28)] hover:-translate-y-2 transition-all duration-500 reveal"
+                  className="group relative overflow-hidden bg-spa-surface border-2 border-spa-line rounded-2xl p-8 pt-10 shadow-[0_2px_12px_-6px_rgba(0,0,0,0.08)] hover:border-spa-red hover:shadow-[0_28px_60px_-20px_rgba(190,30,45,0.28)] hover:-translate-y-2 transition-all duration-500 reveal"
                   style={{ transitionDelay: `${index * 100}ms` }}
                 >
                   {/* Barra de destaque no topo */}
-                  <span className="absolute top-0 inset-x-0 h-1.5 bg-[#be1e2d]/30 group-hover:bg-[#be1e2d] transition-colors duration-500" />
+                  <span className="absolute top-0 inset-x-0 h-1.5 bg-spa-red/30 group-hover:bg-spa-red transition-colors duration-500" />
 
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-14 h-14 rounded-xl bg-[#be1e2d]/10 flex items-center justify-center text-[#be1e2d] group-hover:bg-[#be1e2d] group-hover:text-white transition-all duration-500">
-                      {group.icon}
-                    </div>
+                  {/* O número substitui o ícone em quadradinho arredondado,
+                      mesmo padrão de template que saiu do resto da página, e
+                      amarra estes cartões ao índice numerado lá em cima. */}
+                  <div className="flex items-baseline gap-4 mb-8">
+                    <span className="text-4xl font-display text-spa-red tnum leading-none">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
                     <div>
-                      <h4 className="text-xl font-display font-bold text-[#1f2937] leading-tight">{group.title}</h4>
-                      <span className="text-[11px] font-mono uppercase tracking-widest text-[#9ca3af]">
-                        {group.items.length} serviços
-                      </span>
+                      <h4 className="text-xl font-display text-spa-ink leading-tight">{group.title}</h4>
+                      <span className="label-spec">{group.items.length} serviços</span>
                     </div>
                   </div>
 
                   <ul className="space-y-4">
                     {group.items.map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-[#1f2937] font-medium">
-                        <CheckCircle className="w-[18px] h-[18px] text-[#be1e2d] shrink-0 mt-[3px]" />
+                      <li key={item} className="flex items-start gap-3 text-spa-ink font-medium">
+                        <CheckCircle className="w-[18px] h-[18px] text-spa-red shrink-0 mt-[3px]" />
                         <span className="leading-snug">{item}</span>
                       </li>
                     ))}
@@ -717,7 +599,7 @@ function App() {
 
           {/* Destaque: Geometria 3D e Balanceamento */}
           <div id="geometria-3d" className="mt-24 scroll-mt-28 reveal">
-            <div className="relative overflow-hidden rounded-3xl bg-[#1f2937] shadow-[0_40px_80px_-30px_rgba(31,41,55,0.5)]">
+            <div className="relative overflow-hidden rounded-3xl bg-spa-ink shadow-[0_40px_80px_-30px_rgba(31,41,55,0.5)]">
               <div className="absolute inset-0 bg-grid-dark opacity-20" />
 
               <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2">
@@ -728,22 +610,22 @@ function App() {
                     alt="Veículo em alinhamento de geometria 3D na SPA Automotiva"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1f2937] via-[#1f2937]/15 to-transparent lg:bg-gradient-to-r lg:from-[#1f2937] lg:via-[#1f2937]/20 lg:to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-spa-ink via-spa-ink/15 to-transparent lg:bg-gradient-to-r lg:from-spa-ink lg:via-spa-ink/20 lg:to-transparent" />
                 </div>
 
                 {/* Conteúdo */}
                 <div className="relative p-8 md:p-14 order-2 lg:order-1 flex flex-col justify-center">
-                  <span className="inline-flex items-center gap-2 self-start px-4 py-2 mb-6 rounded-full bg-[#be1e2d] text-white text-[11px] font-mono uppercase tracking-widest">
-                    <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                  <span className="inline-flex items-center gap-2 self-start px-4 py-2 mb-6 rounded-full bg-spa-red text-white label-spec">
+                    <span className="w-2 h-2 rounded-full bg-spa-surface animate-pulse" />
                     Novo serviço
                   </span>
 
-                  <h3 className="text-3xl md:text-5xl font-display font-bold tracking-tight text-white leading-[1.05] mb-5">
+                  <h3 className="text-3xl md:text-5xl font-display tracking-tight text-white leading-[1.05] mb-5">
                     Geometria 3D e<br />
-                    <span className="text-[#be1e2d]">Balanceamento</span>
+                    <span className="text-spa-red-bright">Balanceamento</span>
                   </h3>
 
-                  <p className="text-gray-300 leading-relaxed mb-8 max-w-lg">
+                  <p className="text-spa-on-dark leading-relaxed mb-8 max-w-lg">
                     Alinhamento computadorizado com tecnologia 3D: câmeras de alta precisão medem
                     cambagem, cáster e convergência das quatro rodas em minutos. O resultado é um
                     carro estável, com direção centralizada e pneus que duram muito mais.
@@ -752,12 +634,12 @@ function App() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
                     {geometryBenefits.map((benefit) => (
                       <div key={benefit.title} className="flex items-start gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center text-[#be1e2d] shrink-0">
+                        <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center text-spa-red-bright shrink-0">
                           {benefit.icon}
                         </div>
                         <div>
                           <div className="font-bold text-white text-sm">{benefit.title}</div>
-                          <div className="text-xs text-gray-400 leading-snug">{benefit.description}</div>
+                          <div className="text-xs text-spa-on-dark leading-snug">{benefit.description}</div>
                         </div>
                       </div>
                     ))}
@@ -786,7 +668,7 @@ function App() {
       </section>
 
       {/* About Section */}
-      <section id="sobre" className="relative py-24 bg-[#f4f5f7] border-b border-[#e5e7eb]">
+      <section id="sobre" className="relative py-24 bg-spa-paper border-b border-spa-line">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left: Image */}
@@ -797,74 +679,71 @@ function App() {
                   alt="Oficina SPA Automotiva"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#be1e2d]/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-spa-red/20 to-transparent" />
               </div>
               
-              {/* Experience Badge */}
-              <div className="absolute -bottom-6 -right-6 bg-[#be1e2d] text-white p-6 rounded-2xl shadow-xl">
-                <div className="text-4xl font-display font-bold">20+</div>
-                <div className="text-sm opacity-90">Anos de<br/>Experiência</div>
-              </div>
             </div>
 
             {/* Right: Content */}
             <div className="reveal delay-200">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-[2px] bg-[#be1e2d]" />
-                <span className="text-xs font-mono uppercase tracking-widest text-[#6b7280]">Quem Somos</span>
+                <div className="w-10 h-px bg-spa-red" />
+                <span className="label-spec">Quem Somos</span>
               </div>
 
-              <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-6">
-                Tradição e <span className="text-[#be1e2d]">Excelência</span>
+              <h2 className="text-4xl md:text-5xl font-display tracking-tight mb-8 text-spa-ink leading-[1.02]">
+                Vinte anos no<br />mesmo endereço.
               </h2>
 
-              <p className="text-[#6b7280] leading-relaxed mb-6">
-                A SPA Automotiva foi fundada em 1999 com o compromisso de oferecer serviços automotivos 
-                de alta qualidade. Ao longo de mais de duas décadas, nos consolidamos como referência 
-                em Porto Alegre, atendendo clientes particulares e frotas empresariais.
+              <p className="text-spa-body leading-relaxed mb-6 max-w-[62ch]">
+                A SPA abriu em 2006 na Av. Alcides Maia e nunca mudou de lugar.
+                Atende carro particular e frota, de todas as montadoras, com a
+                mesma equipe que os clientes reconhecem pelo nome.
               </p>
 
-              <p className="text-[#6b7280] leading-relaxed mb-8">
-                Nossa equipe é formada por profissionais certificados e em constante atualização, 
-                utilizando equipamentos de última geração para garantir o melhor resultado em cada serviço.
+              <p className="text-spa-body leading-relaxed mb-10 max-w-[62ch]">
+                O que os clientes escrevem no Google se repete: orçamento sem
+                surpresa e explicação do defeito antes do serviço. As avaliações
+                estão logo abaixo, com nome e data, do jeito que foram publicadas.
               </p>
 
-              {/* Differentials */}
-              <div className="grid grid-cols-2 gap-4">
-                {differentials.map((diff) => (
-                  <div key={diff.title} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-[#e5e7eb]">
-                    <div className="w-10 h-10 rounded-lg bg-[#be1e2d]/10 flex items-center justify-center text-[#be1e2d]">
-                      {diff.icon}
-                    </div>
-                    <div>
-                      <div className="font-bold text-[#1f2937]">{diff.title}</div>
-                      <div className="text-xs text-[#6b7280]">{diff.description}</div>
-                    </div>
+              {/* Ficha da oficina. Substituiu quatro cartõezinhos com "100%
+                  Satisfação" e "10 mil clientes", números que ninguém consegue
+                  conferir. Aqui só entra dado verificável. */}
+              <dl className="border-t border-spa-line">
+                {workshopFacts.map((fact) => (
+                  <div
+                    key={fact.term}
+                    className="grid grid-cols-[9rem_1fr] gap-4 py-4 border-b border-spa-line"
+                  >
+                    <dt className="label-spec pt-1">{fact.term}</dt>
+                    <dd className="text-spa-ink font-medium">{fact.value}</dd>
                   </div>
                 ))}
-              </div>
+              </dl>
             </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section id="depoimentos" className="relative py-24 bg-white border-b border-[#e5e7eb]">
+      <section id="depoimentos" className="relative py-24 bg-spa-surface border-b border-spa-line">
         <div className="absolute inset-0 bg-grid opacity-30" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           {/* Section Header */}
-          <div className="text-center mb-16 reveal">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="w-12 h-[2px] bg-[#be1e2d]" />
-              <span className="text-xs font-mono uppercase tracking-widest text-[#6b7280]">Depoimentos</span>
-              <div className="w-12 h-[2px] bg-[#be1e2d]" />
+          <div className="max-w-[54ch] mb-16 reveal">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-10 h-px bg-spa-red" />
+              <span className="label-spec">Depoimentos</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight">
-              O que nossos <span className="text-[#be1e2d]">clientes</span> dizem
+            <h2 className="text-4xl md:text-5xl font-display tracking-tight text-spa-ink leading-[1.02] mb-5">
+              Publicado no Google,<br />não escrito por nós.
             </h2>
-            <p className="mt-4 text-sm text-[#6b7280]">
-              Avaliações reais publicadas no Google por quem confia a manutenção do carro à SPA.
+            <p className="text-spa-body leading-relaxed">
+              Quatro avaliações copiadas na íntegra, com o nome de quem escreveu
+              e quando. O link no fim da seção abre a lista inteira, inclusive o
+              que não está aqui.
             </p>
           </div>
 
@@ -877,27 +756,27 @@ function App() {
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex gap-1">
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-[#be1e2d] text-[#be1e2d]" />
+                        <Star key={i} className="w-5 h-5 fill-spa-red text-spa-red" />
                       ))}
                     </div>
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#9ca3af]">
+                    <span className="label-spec text-spa-faint">
                       Google · {testimonial.date}
                     </span>
                   </div>
 
                   {/* Content */}
-                  <p className="text-[#6b7280] leading-relaxed mb-6 flex-1">
+                  <p className="text-spa-body leading-relaxed mb-6 flex-1">
                     &ldquo;{testimonial.content}&rdquo;
                   </p>
 
                   {/* Author */}
-                  <div className="flex items-center gap-3 pt-4 border-t border-[#e5e7eb]">
-                    <div className="w-10 h-10 rounded-full bg-[#be1e2d]/10 flex items-center justify-center text-[#be1e2d] font-bold">
+                  <div className="flex items-center gap-3 pt-4 border-t border-spa-line">
+                    <div className="w-10 h-10 rounded-full bg-spa-red/10 flex items-center justify-center text-spa-red font-bold">
                       {testimonial.name.charAt(0)}
                     </div>
                     <div>
-                      <div className="font-bold text-[#1f2937]">{testimonial.name}</div>
-                      <div className="text-xs text-[#6b7280]">{testimonial.role}</div>
+                      <div className="font-bold text-spa-ink">{testimonial.name}</div>
+                      <div className="text-xs text-spa-body">{testimonial.role}</div>
                     </div>
                   </div>
                 </CardContent>
@@ -911,7 +790,7 @@ function App() {
               href="https://www.google.com/maps/search/?api=1&query=SPA+Automotiva+Av.+Alcides+Maia+199+Porto+Alegre"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-bold text-[#be1e2d] hover:text-[#1f2937] transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-bold text-spa-red hover:text-spa-ink transition-colors"
             >
               Ver todas as avaliações no Google
               <ArrowRight className="w-4 h-4" />
@@ -921,81 +800,87 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contato" className="relative py-24 bg-[#f4f5f7] border-b border-[#e5e7eb]">
+      <section id="contato" className="relative py-24 bg-spa-paper border-b border-spa-line">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Left: Contact Info */}
             <div className="reveal">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-[2px] bg-[#be1e2d]" />
-                <span className="text-xs font-mono uppercase tracking-widest text-[#6b7280]">Contato</span>
+                <div className="w-10 h-px bg-spa-red" />
+                <span className="label-spec">Contato</span>
               </div>
 
-              <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-6">
-                Entre em <span className="text-[#be1e2d]">Contato</span>
+              <h2 className="text-4xl md:text-5xl font-display tracking-tight mb-6">
+                Traga o carro,<br />ou mande o sintoma.
               </h2>
 
-              <p className="text-[#6b7280] leading-relaxed mb-8">
-                Estamos prontos para atender você. Entre em contato conosco para agendar um serviço 
-                ou tirar suas dúvidas.
+              <p className="text-spa-body leading-relaxed mb-8">
+                Descreva o sintoma pelo WhatsApp ou ligue. Se preferir, use o
+                formulário: ele abre a conversa no WhatsApp com os dados já preenchidos.
               </p>
 
-              {/* Contact Details */}
-              <div className="space-y-4 mb-8">
-                <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-[#e5e7eb]">
-                  <div className="w-12 h-12 rounded-lg bg-[#be1e2d]/10 flex items-center justify-center text-[#be1e2d]">
-                    <MessageCircle className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-mono uppercase text-[#6b7280]">WhatsApp</div>
-                    <a href="https://wa.me/5551981833205" target="_blank" rel="noopener noreferrer" className="font-bold text-[#1f2937] hover:text-[#be1e2d] transition-colors">
+              {/* Dados de contato como ficha, e não como quatro cartões
+                  iguais com ícone em quadradinho: o mesmo padrão de template
+                  que saiu da seção de serviços. Telefone e endereço são
+                  links de verdade, tocáveis com o polegar. */}
+              <dl className="border-t border-spa-line mb-10">
+                <div className="grid grid-cols-[8.5rem_1fr] gap-4 items-baseline py-5 border-b border-spa-line">
+                  <dt className="label-spec">WhatsApp</dt>
+                  <dd>
+                    <a
+                      href="https://wa.me/5551981833205"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xl font-display text-spa-ink hover:text-spa-red transition-colors tnum"
+                    >
                       (51) 98183-3205
                     </a>
-                  </div>
+                  </dd>
                 </div>
 
-                <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-[#e5e7eb]">
-                  <div className="w-12 h-12 rounded-lg bg-[#be1e2d]/10 flex items-center justify-center text-[#be1e2d]">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-mono uppercase text-[#6b7280]">Central de Atendimento</div>
-                    <a href="tel:+555130123360" className="font-bold text-[#1f2937] hover:text-[#be1e2d] transition-colors">
+                <div className="grid grid-cols-[8.5rem_1fr] gap-4 items-baseline py-5 border-b border-spa-line">
+                  <dt className="label-spec">Central</dt>
+                  <dd>
+                    <a
+                      href="tel:+555130123360"
+                      className="text-xl font-display text-spa-ink hover:text-spa-red transition-colors tnum"
+                    >
                       (51) 3012-3360
                     </a>
-                  </div>
+                  </dd>
                 </div>
 
-                <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-[#e5e7eb]">
-                  <div className="w-12 h-12 rounded-lg bg-[#be1e2d]/10 flex items-center justify-center text-[#be1e2d]">
-                    <MapPin className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-mono uppercase text-[#6b7280]">Endereço</div>
-                    <div className="font-bold text-[#1f2937]">Av. Alcides Maia, 199 - Porto Alegre/RS</div>
-                  </div>
+                <div className="grid grid-cols-[8.5rem_1fr] gap-4 items-baseline py-5 border-b border-spa-line">
+                  <dt className="label-spec">Endereço</dt>
+                  <dd>
+                    <a
+                      href="https://www.google.com/maps/search/?api=1&query=Av.+Alcides+Maia+199+Porto+Alegre+RS"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-spa-ink font-medium hover:text-spa-red transition-colors"
+                    >
+                      Av. Alcides Maia, 199 · Porto Alegre / RS
+                    </a>
+                  </dd>
                 </div>
 
-                <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-[#e5e7eb]">
-                  <div className="w-12 h-12 rounded-lg bg-[#be1e2d]/10 flex items-center justify-center text-[#be1e2d]">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-mono uppercase text-[#6b7280]">Horário</div>
-                    <div className="font-bold text-[#1f2937]">Seg-Sex: 8h às 12h e das 13h30min às 18h</div>
-                  </div>
+                <div className="grid grid-cols-[8.5rem_1fr] gap-4 items-baseline py-5 border-b border-spa-line">
+                  <dt className="label-spec">Atendimento</dt>
+                  <dd className="text-spa-ink font-medium">
+                    Segunda a sexta, 8h às 12h e 13h30 às 18h
+                  </dd>
                 </div>
-              </div>
+              </dl>
             </div>
 
             {/* Right: Contact Form */}
             <div className="reveal delay-200">
-              <div className="bg-white p-8 rounded-2xl border border-[#e5e7eb] shadow-lg">
-                <h3 className="text-xl font-bold text-[#1f2937] mb-6">Agende seu Serviço</h3>
+              <div className="bg-spa-surface p-8 rounded-2xl border border-spa-line shadow-lg">
+                <h3 className="text-xl font-bold text-spa-ink mb-6">Agende seu Serviço</h3>
                 
                 <form className="space-y-4" onSubmit={handleContactSubmit}>
                   <div>
-                    <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Nome</label>
+                    <label className="label-spec text-spa-body mb-2 block">Nome</label>
                     <Input 
                       placeholder="Seu nome completo" 
                       className="h-12" 
@@ -1006,7 +891,7 @@ function App() {
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Email</label>
+                      <label className="label-spec text-spa-body mb-2 block">Email</label>
                       <Input 
                         type="email" 
                         placeholder="seu@email.com" 
@@ -1016,7 +901,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Telefone</label>
+                      <label className="label-spec text-spa-body mb-2 block">Telefone</label>
                       <Input 
                         placeholder="(51) 99999-9999" 
                         className="h-12" 
@@ -1027,9 +912,9 @@ function App() {
                   </div>
                   
                   <div>
-                    <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Serviço</label>
+                    <label className="label-spec text-spa-body mb-2 block">Serviço</label>
                     <select 
-                      className="w-full h-12 px-3 rounded-md border border-[#e5e7eb] bg-white text-sm"
+                      className="w-full h-12 px-3 rounded-md border border-spa-line bg-spa-surface text-sm"
                       value={contactServico}
                       onChange={(e) => setContactServico(e.target.value)}
                     >
@@ -1055,7 +940,7 @@ function App() {
                   </div>
                   
                   <div>
-                    <label className="text-xs font-mono uppercase text-[#6b7280] mb-2 block">Mensagem</label>
+                    <label className="label-spec text-spa-body mb-2 block">Mensagem</label>
                     <Textarea 
                       placeholder="Descreva o que você precisa..." 
                       className="min-h-[100px]" 
@@ -1064,7 +949,7 @@ function App() {
                     />
                   </div>
                   
-                  <Button type="submit" className="w-full h-12 bg-[#be1e2d] hover:bg-[#8f1320] text-white rounded-full font-semibold">
+                  <Button type="submit" className="w-full h-12 bg-spa-red hover:bg-spa-red-deep text-white rounded-full font-semibold">
                     <Calendar className="w-4 h-4 mr-2" />
                     Solicitar Agendamento
                   </Button>
@@ -1076,7 +961,7 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="relative py-16 bg-[#1f2937] text-white">
+      <footer className="relative py-16 bg-spa-ink text-white">
         <div className="absolute inset-0 bg-grid-dark opacity-20" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-6">
@@ -1084,23 +969,35 @@ function App() {
             {/* Brand */}
             <div className="md:col-span-2">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-[#be1e2d] text-white rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-spa-red text-white rounded-lg flex items-center justify-center">
                   <Car className="w-6 h-6" />
                 </div>
                 <span className="font-display text-lg tracking-tight">
-                  SPA<span className="text-[#be1e2d]">.</span>AUTOMOTIVA
+                  SPA<span className="text-spa-red-bright">.</span>AUTOMOTIVA
                 </span>
               </div>
-              <p className="text-gray-400 leading-relaxed max-w-md mb-6">
-                Há mais de 20 anos (desde 2006) oferecendo serviços automotivos de excelência em Porto Alegre.
-                Sua segurança é nossa prioridade.
+              <p className="text-spa-on-dark leading-relaxed max-w-md mb-6">
+                Oficina mecânica na Av. Alcides Maia, 199, em Porto Alegre, desde 2006.
+                Carro particular e frota, de todas as montadoras.
               </p>
               <div className="flex gap-3">
-                <a href="https://www.instagram.com/spaautomotiva/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#be1e2d] transition-colors">
-                  <span className="text-lg">📸</span>
+                <a
+                  href="https://www.instagram.com/spaautomotiva/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram da SPA Automotiva"
+                  className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-spa-on-dark hover:text-white hover:border-spa-red transition-colors"
+                >
+                  <Instagram className="w-[18px] h-[18px]" />
                 </a>
-                <a href="https://wa.me/5551981833205" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-gray-600 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#be1e2d] transition-colors">
-                  <MessageCircle className="w-4 h-4" />
+                <a
+                  href="https://wa.me/5551981833205"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="WhatsApp da SPA Automotiva"
+                  className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-spa-on-dark hover:text-white hover:border-spa-red transition-colors"
+                >
+                  <MessageCircle className="w-[18px] h-[18px]" />
                 </a>
               </div>
             </div>
@@ -1109,10 +1006,10 @@ function App() {
             <div>
               <h4 className="font-bold mb-4">Links Rápidos</h4>
               <ul className="space-y-2">
-                <li><button onClick={() => scrollToSection('servicos')} className="text-gray-400 hover:text-white transition-colors">Serviços</button></li>
-                <li><button onClick={() => scrollToSection('sobre')} className="text-gray-400 hover:text-white transition-colors">Quem Somos</button></li>
-                <li><button onClick={() => scrollToSection('depoimentos')} className="text-gray-400 hover:text-white transition-colors">Depoimentos</button></li>
-                <li><button onClick={() => scrollToSection('contato')} className="text-gray-400 hover:text-white transition-colors">Contato</button></li>
+                <li><button onClick={() => scrollToSection('servicos')} className="text-spa-on-dark hover:text-white transition-colors">Serviços</button></li>
+                <li><button onClick={() => scrollToSection('sobre')} className="text-spa-on-dark hover:text-white transition-colors">Quem Somos</button></li>
+                <li><button onClick={() => scrollToSection('depoimentos')} className="text-spa-on-dark hover:text-white transition-colors">Depoimentos</button></li>
+                <li><button onClick={() => scrollToSection('contato')} className="text-spa-on-dark hover:text-white transition-colors">Contato</button></li>
               </ul>
             </div>
 
@@ -1120,38 +1017,41 @@ function App() {
             <div>
               <h4 className="font-bold mb-4">Serviços</h4>
               <ul className="space-y-2">
-                <li><span className="text-gray-400">Motor e Injeção Eletrônica</span></li>
-                <li><span className="text-gray-400">Suspensão e Direção</span></li>
-                <li><span className="text-gray-400">Geometria 3D e Balanceamento</span></li>
-                <li><span className="text-gray-400">Freio, Câmbio e Embreagem</span></li>
-                <li><span className="text-gray-400">Ar Condicionado</span></li>
-                <li><span className="text-gray-400">Óleos, Filtros e Pneus</span></li>
-                <li><span className="text-gray-400">Baterias e Alternador</span></li>
+                <li><span className="text-spa-on-dark">Motor e Injeção Eletrônica</span></li>
+                <li><span className="text-spa-on-dark">Suspensão e Direção</span></li>
+                <li><span className="text-spa-on-dark">Geometria 3D e Balanceamento</span></li>
+                <li><span className="text-spa-on-dark">Freio, Câmbio e Embreagem</span></li>
+                <li><span className="text-spa-on-dark">Ar Condicionado</span></li>
+                <li><span className="text-spa-on-dark">Óleos, Filtros e Pneus</span></li>
+                <li><span className="text-spa-on-dark">Baterias e Alternador</span></li>
               </ul>
             </div>
           </div>
 
           {/* Bottom */}
-          <div className="pt-8 border-t border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-xs font-mono uppercase tracking-widest text-gray-500">
+          <div className="pt-8 border-t border-white/15 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="label-spec text-spa-on-dark/70">
               © 2026 SPA Automotiva. Todos os direitos reservados.
             </div>
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-spa-on-dark/70">
               Av. Alcides Maia, 199 - Porto Alegre/RS | CEP: 91120440
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Floating WhatsApp Button */}
+      {/* Botão fixo do WhatsApp. Era um emoji dentro de um círculo verde
+          genérico; virou ícone com rótulo, na cor da marca, com alvo de
+          toque de 56px. */}
       <a
         href="https://wa.me/5551981833205"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-8 right-8 z-50 w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
-        title="Envie uma mensagem para nós no WhatsApp"
+        aria-label="Falar com a SPA Automotiva no WhatsApp"
+        className="fixed bottom-6 right-6 z-50 h-14 pl-4 pr-5 bg-spa-red hover:bg-spa-red-deep rounded-full flex items-center gap-3 text-white shadow-lg transition-colors"
       >
-        <span className="text-2xl">💬</span>
+        <MessageCircle className="w-6 h-6 shrink-0" />
+        <span className="hidden sm:inline text-sm font-semibold">WhatsApp</span>
       </a>
     </div>
   );

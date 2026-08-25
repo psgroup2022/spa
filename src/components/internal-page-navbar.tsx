@@ -13,8 +13,8 @@ export default function InternalPageNavbar({ currentPage, onNavigate }: Internal
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const links: Array<{ key: SitePage; label: string }> = [
-    { key: 'home', label: 'Inicio' },
-    { key: 'para-voce', label: 'Para Voce' },
+    { key: 'home', label: 'Início' },
+    { key: 'para-voce', label: 'Para Você' },
     { key: 'para-empresa', label: 'Para Empresa' }
   ];
 
@@ -30,8 +30,8 @@ export default function InternalPageNavbar({ currentPage, onNavigate }: Internal
             <button
               key={link.key}
               onClick={() => onNavigate(link.key)}
-              className={`text-base font-mono uppercase tracking-widest transition-colors ${
-                currentPage === link.key ? 'text-[#be1e2d]' : 'text-[#6b7280] hover:text-[#1f2937]'
+              className={`text-[15px] font-medium tracking-tight transition-colors ${
+                currentPage === link.key ? 'text-spa-red' : 'text-spa-body hover:text-spa-ink'
               }`}
             >
               {link.label}
@@ -49,7 +49,7 @@ export default function InternalPageNavbar({ currentPage, onNavigate }: Internal
       </nav>
 
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-white pt-24 px-6 md:hidden">
+        <div className="fixed inset-0 z-50 bg-spa-surface pt-24 px-6 md:hidden">
           <div className="flex flex-col gap-6">
             {links.map((link) => (
               <button
@@ -58,7 +58,7 @@ export default function InternalPageNavbar({ currentPage, onNavigate }: Internal
                   onNavigate(link.key);
                   setIsMobileMenuOpen(false);
                 }}
-                className={`text-left text-lg font-medium ${currentPage === link.key ? 'text-[#be1e2d]' : 'text-[#1f2937]'}`}
+                className={`text-left text-lg font-medium ${currentPage === link.key ? 'text-spa-red' : 'text-spa-ink'}`}
               >
                 {link.label}
               </button>
