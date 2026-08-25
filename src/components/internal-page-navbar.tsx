@@ -2,7 +2,7 @@ import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import logo from '@/assets/logo.svg';
 
-export type SitePage = 'home' | 'para-voce' | 'para-empresa' | 'spa-racing' | 'spa-care';
+export type SitePage = 'home' | 'para-voce' | 'para-empresa';
 
 interface InternalPageNavbarProps {
   currentPage: SitePage;
@@ -15,9 +15,7 @@ export default function InternalPageNavbar({ currentPage, onNavigate }: Internal
   const links: Array<{ key: SitePage; label: string }> = [
     { key: 'home', label: 'Inicio' },
     { key: 'para-voce', label: 'Para Voce' },
-    { key: 'para-empresa', label: 'Para Empresa' },
-    { key: 'spa-racing', label: 'SPA Racing' },
-    { key: 'spa-care', label: 'SPA Care' }
+    { key: 'para-empresa', label: 'Para Empresa' }
   ];
 
   return (

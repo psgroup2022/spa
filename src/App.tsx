@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { 
   Car,
-  Shield, 
   Phone, 
   MapPin, 
   Calendar, 
@@ -14,11 +13,19 @@ import {
   Clock,
   Award,
   Users,
-  Zap,
-  MessageCircle
+  MessageCircle,
+  Wrench,
+  Sparkles,
+  Snowflake,
+  Cog,
+  Gauge,
+  Target,
+  Fuel,
+  Timer
 } from 'lucide-react';
 import logo from '@/assets/logo.svg';
 import videoBg from '@/assets/video_bg.mp4';
+import geometria3d from '@/assets/geometria-3d.jpg';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -26,13 +33,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import ParaVoce from '@/pages/ParaVoce';
 import ParaEmpresa from '@/pages/ParaEmpresa';
-import SpaRacing from '@/pages/SpaRacing';
-import SpaCare from '@/pages/SpaCare';
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<'home' | 'para-voce' | 'para-empresa' | 'spa-racing' | 'spa-care'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'para-voce' | 'para-empresa'>('home');
   const heroRef = useRef<HTMLDivElement>(null);
 
   // States for Dialog Agendamento
@@ -118,7 +123,7 @@ function App() {
     }
   };
 
-  const navigateToPage = (page: 'home' | 'para-voce' | 'para-empresa' | 'spa-racing' | 'spa-care') => {
+  const navigateToPage = (page: 'home' | 'para-voce' | 'para-empresa') => {
     setCurrentPage(page);
     setIsMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -129,25 +134,76 @@ function App() {
       icon: <Car className="w-8 h-8" />,
       title: 'Para Você',
       description: 'Seu carro em boas mãos, com serviços executados para facilitar sua compreensão e manutenção.',
-      link: '#contato'
+      link: '#contato',
+      highlight: false
     },
     {
       icon: <Users className="w-8 h-8" />,
       title: 'Para Empresa',
       description: 'Equipe especializada para atendimento e manutenção de frotas de todas as montadoras.',
-      link: '#contato'
+      link: '#contato',
+      highlight: false
     },
     {
-      icon: <Zap className="w-8 h-8" />,
-      title: 'SPA Racing',
-      description: 'Distribuição de produtos e execução de serviços voltados para performance automotiva.',
-      link: '#contato'
+      icon: <Wrench className="w-8 h-8" />,
+      title: 'Mecânica Geral',
+      description: 'Motor, injeção eletrônica, suspensão, direção, freio, câmbio e embreagem com diagnóstico preciso.',
+      link: '#catalogo',
+      highlight: false
     },
     {
-      icon: <Shield className="w-8 h-8" />,
-      title: 'SPA Care',
-      description: 'Procedimentos desenvolvidos para cuidar do seu veículo e aumentar sua vida útil.',
-      link: '#contato'
+      icon: <Target className="w-8 h-8" />,
+      title: 'Geometria 3D',
+      description: 'Alinhamento computadorizado 3D e balanceamento: direção estável e pneus com desgaste uniforme.',
+      link: '#geometria-3d',
+      highlight: true
+    }
+  ];
+
+  const serviceCatalog = [
+    {
+      icon: <Cog className="w-7 h-7" />,
+      title: 'Mecânica e Reparos',
+      items: ['Motor', 'Injeção Eletrônica', 'Suspensão', 'Direção', 'Freio', 'Câmbio', 'Embreagem', 'Geometria 3D e Balanceamento']
+    },
+    {
+      icon: <Snowflake className="w-7 h-7" />,
+      title: 'Manutenção e Peças',
+      items: ['Ar Condicionado', 'Óleos', 'Filtros', 'Pneus', 'Baterias', 'Alternador', 'Motor de Partida']
+    },
+    {
+      icon: <Sparkles className="w-7 h-7" />,
+      title: 'Serviços Especiais',
+      items: [
+        'Higienização do sistema de ar condicionado',
+        'Oxi-sanitização',
+        'Troca de óleo de câmbio automático',
+        'Limpeza do sistema de arrefecimento',
+        'Descarbonização do sistema de injeção'
+      ]
+    }
+  ];
+
+  const geometryBenefits = [
+    {
+      icon: <Target className="w-4 h-4" />,
+      title: 'Precisão 3D',
+      description: 'Medição das 4 rodas por câmeras'
+    },
+    {
+      icon: <Gauge className="w-4 h-4" />,
+      title: 'Direção estável',
+      description: 'Volante centralizado, sem puxar'
+    },
+    {
+      icon: <Fuel className="w-4 h-4" />,
+      title: 'Menos consumo',
+      description: 'Rodas alinhadas gastam menos'
+    },
+    {
+      icon: <Timer className="w-4 h-4" />,
+      title: 'Pneus duram mais',
+      description: 'Desgaste uniforme na banda'
     }
   ];
 
@@ -195,14 +251,6 @@ function App() {
 
   if (currentPage === 'para-empresa') {
     return <ParaEmpresa currentPage={currentPage} onNavigate={navigateToPage} />;
-  }
-
-  if (currentPage === 'spa-racing') {
-    return <SpaRacing currentPage={currentPage} onNavigate={navigateToPage} />;
-  }
-
-  if (currentPage === 'spa-care') {
-    return <SpaCare currentPage={currentPage} onNavigate={navigateToPage} />;
   }
 
 
@@ -273,10 +321,22 @@ function App() {
                     onChange={(e) => setDialogServico(e.target.value)}
                   >
                     <option>Selecione um serviço</option>
-                    <option>Revisão</option>
-                    <option>Troca de Óleo</option>
-                    <option>Freios</option>
+                    <option>Motor</option>
+                    <option>Injeção Eletrônica</option>
                     <option>Suspensão</option>
+                    <option>Direção</option>
+                    <option>Freio</option>
+                    <option>Câmbio / Embreagem</option>
+                    <option>Geometria 3D e Balanceamento</option>
+                    <option>Ar Condicionado</option>
+                    <option>Troca de Óleo e Filtros</option>
+                    <option>Pneus</option>
+                    <option>Bateria / Alternador / Motor de Partida</option>
+                    <option>Higienização do Ar Condicionado</option>
+                    <option>Oxi-sanitização</option>
+                    <option>Troca de Óleo de Câmbio Automático</option>
+                    <option>Limpeza do Sistema de Arrefecimento</option>
+                    <option>Descarbonização do Sistema de Injeção</option>
                     <option>Outro</option>
                   </select>
                 </div>
@@ -328,7 +388,7 @@ function App() {
             muted
             loop
             playsInline
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover object-[68%_58%] lg:object-center"
           >
             <source src={videoBg} type="video/mp4" />
           </video>
@@ -463,31 +523,63 @@ function App() {
       <div className="py-6 bg-[#1f2937] overflow-hidden border-y border-[#1f2937]">
         <div className="marquee-container">
           <div className="marquee-content items-center">
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Revisão Completa</span>
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Motor</span>
             <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Troca de Óleo</span>
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Injeção Eletrônica</span>
             <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Freios</span>
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Suspensão</span>
             <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Suspensão</span>
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Direção</span>
             <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Injeção Eletrônica</span>
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Freio</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Câmbio</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Embreagem</span>
             <Star className="text-[#be1e2d] w-5 h-5" />
             <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Ar Condicionado</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Óleos</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Filtros</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Pneus</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Baterias</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Alternador</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Motor de Partida</span>
             <Star className="text-[#be1e2d] w-5 h-5" />
           </div>
           <div className="marquee-content items-center">
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Revisão Completa</span>
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Motor</span>
             <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Troca de Óleo</span>
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Injeção Eletrônica</span>
             <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Freios</span>
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Suspensão</span>
             <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Suspensão</span>
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Direção</span>
             <Star className="text-[#be1e2d] w-5 h-5" />
-            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Injeção Eletrônica</span>
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Freio</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Câmbio</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Embreagem</span>
             <Star className="text-[#be1e2d] w-5 h-5" />
             <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Ar Condicionado</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Óleos</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Filtros</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Pneus</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Baterias</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-white">Alternador</span>
+            <Star className="text-[#be1e2d] w-5 h-5" />
+            <span className="text-xl font-display font-bold uppercase tracking-tighter mx-8 text-[#6b7280]">Motor de Partida</span>
             <Star className="text-[#be1e2d] w-5 h-5" />
           </div>
         </div>
@@ -526,17 +618,19 @@ function App() {
                 {services.map((service, index) => (
                   <div 
                     key={service.title}
-                    className="flashlight-card p-6 group cursor-pointer"
+                    className={`flashlight-card p-6 group cursor-pointer ${
+                      service.highlight ? 'ring-2 ring-[#be1e2d] shadow-[0_24px_50px_-20px_rgba(190,30,45,0.45)]' : ''
+                    }`}
                     style={{ animationDelay: `${index * 100}ms` }}
                     onClick={() => {
                       if (service.title === 'Para Você') {
                         navigateToPage('para-voce');
                       } else if (service.title === 'Para Empresa') {
                         navigateToPage('para-empresa');
-                      } else if (service.title === 'SPA Racing') {
-                        navigateToPage('spa-racing');
-                      } else if (service.title === 'SPA Care') {
-                        navigateToPage('spa-care');
+                      } else if (service.link === '#geometria-3d') {
+                        scrollToSection('geometria-3d');
+                      } else if (service.link === '#catalogo') {
+                        scrollToSection('catalogo');
                       } else {
                         scrollToSection('contato');
                       }
@@ -549,7 +643,16 @@ function App() {
                       e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
                     }}
                   >
-                    <div className="w-14 h-14 rounded-xl bg-[#be1e2d]/10 flex items-center justify-center text-[#be1e2d] mb-4 group-hover:bg-[#be1e2d] group-hover:text-white transition-all duration-300">
+                    {service.highlight && (
+                      <span className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#be1e2d] text-white text-[10px] font-mono uppercase tracking-widest z-[3]">
+                        Novo
+                      </span>
+                    )}
+                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 transition-all duration-300 ${
+                      service.highlight
+                        ? 'bg-[#be1e2d] text-white'
+                        : 'bg-[#be1e2d]/10 text-[#be1e2d] group-hover:bg-[#be1e2d] group-hover:text-white'
+                    }`}>
                       {service.icon}
                     </div>
                     <h3 className="text-xl font-bold text-[#1f2937] mb-2">{service.title}</h3>
@@ -560,6 +663,122 @@ function App() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Catálogo completo de serviços */}
+          <div id="catalogo" className="mt-24 scroll-mt-28">
+            <div className="text-center mb-12 reveal">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="w-12 h-[2px] bg-[#be1e2d]" />
+                <span className="text-xs font-mono uppercase tracking-widest text-[#6b7280]">Tudo que fazemos</span>
+                <div className="w-12 h-[2px] bg-[#be1e2d]" />
+              </div>
+              <h3 className="text-3xl md:text-4xl font-display font-bold tracking-tight">
+                Catálogo <span className="text-[#be1e2d]">completo</span>
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {serviceCatalog.map((group, index) => (
+                <div
+                  key={group.title}
+                  className="group relative overflow-hidden bg-white border-2 border-[#e5e7eb] rounded-2xl p-8 pt-10 shadow-[0_2px_12px_-6px_rgba(0,0,0,0.08)] hover:border-[#be1e2d] hover:shadow-[0_28px_60px_-20px_rgba(190,30,45,0.28)] hover:-translate-y-2 transition-all duration-500 reveal"
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                >
+                  {/* Barra de destaque no topo */}
+                  <span className="absolute top-0 inset-x-0 h-1.5 bg-[#be1e2d]/30 group-hover:bg-[#be1e2d] transition-colors duration-500" />
+
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="w-14 h-14 rounded-xl bg-[#be1e2d]/10 flex items-center justify-center text-[#be1e2d] group-hover:bg-[#be1e2d] group-hover:text-white transition-all duration-500">
+                      {group.icon}
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-display font-bold text-[#1f2937] leading-tight">{group.title}</h4>
+                      <span className="text-[11px] font-mono uppercase tracking-widest text-[#9ca3af]">
+                        {group.items.length} serviços
+                      </span>
+                    </div>
+                  </div>
+
+                  <ul className="space-y-4">
+                    {group.items.map((item) => (
+                      <li key={item} className="flex items-start gap-3 text-[#1f2937] font-medium">
+                        <CheckCircle className="w-[18px] h-[18px] text-[#be1e2d] shrink-0 mt-[3px]" />
+                        <span className="leading-snug">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Destaque: Geometria 3D e Balanceamento */}
+          <div id="geometria-3d" className="mt-24 scroll-mt-28 reveal">
+            <div className="relative overflow-hidden rounded-3xl bg-[#1f2937] shadow-[0_40px_80px_-30px_rgba(31,41,55,0.5)]">
+              <div className="absolute inset-0 bg-grid-dark opacity-20" />
+
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2">
+                {/* Imagem */}
+                <div className="relative min-h-[300px] lg:min-h-full order-1 lg:order-2">
+                  <img
+                    src={geometria3d}
+                    alt="Veículo em alinhamento de geometria 3D na SPA Automotiva"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1f2937] via-[#1f2937]/15 to-transparent lg:bg-gradient-to-r lg:from-[#1f2937] lg:via-[#1f2937]/20 lg:to-transparent" />
+                </div>
+
+                {/* Conteúdo */}
+                <div className="relative p-8 md:p-14 order-2 lg:order-1 flex flex-col justify-center">
+                  <span className="inline-flex items-center gap-2 self-start px-4 py-2 mb-6 rounded-full bg-[#be1e2d] text-white text-[11px] font-mono uppercase tracking-widest">
+                    <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                    Novo serviço
+                  </span>
+
+                  <h3 className="text-3xl md:text-5xl font-display font-bold tracking-tight text-white leading-[1.05] mb-5">
+                    Geometria 3D e<br />
+                    <span className="text-[#be1e2d]">Balanceamento</span>
+                  </h3>
+
+                  <p className="text-gray-300 leading-relaxed mb-8 max-w-lg">
+                    Alinhamento computadorizado com tecnologia 3D: câmeras de alta precisão medem
+                    cambagem, cáster e convergência das quatro rodas em minutos. O resultado é um
+                    carro estável, com direção centralizada e pneus que duram muito mais.
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                    {geometryBenefits.map((benefit) => (
+                      <div key={benefit.title} className="flex items-start gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center text-[#be1e2d] shrink-0">
+                          {benefit.icon}
+                        </div>
+                        <div>
+                          <div className="font-bold text-white text-sm">{benefit.title}</div>
+                          <div className="text-xs text-gray-400 leading-snug">{benefit.description}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap gap-4">
+                    <button
+                      onClick={() => sendWhatsApp('Olá! Gostaria de agendar Geometria 3D e Balanceamento na SPA Automotiva.')}
+                      className="btn-primary"
+                    >
+                      <span>Agendar Geometria 3D</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => scrollToSection('contato')}
+                      className="px-6 py-3.5 bg-white/10 backdrop-blur-md border border-white/25 text-white rounded-full text-sm font-semibold hover:bg-white/20 transition-all"
+                    >
+                      Pedir orçamento
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -725,11 +944,25 @@ function App() {
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-[#e5e7eb]">
                   <div className="w-12 h-12 rounded-lg bg-[#be1e2d]/10 flex items-center justify-center text-[#be1e2d]">
+                    <MessageCircle className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-mono uppercase text-[#6b7280]">WhatsApp</div>
+                    <a href="https://wa.me/5551981833205" target="_blank" rel="noopener noreferrer" className="font-bold text-[#1f2937] hover:text-[#be1e2d] transition-colors">
+                      (51) 98183-3205
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-[#e5e7eb]">
+                  <div className="w-12 h-12 rounded-lg bg-[#be1e2d]/10 flex items-center justify-center text-[#be1e2d]">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-xs font-mono uppercase text-[#6b7280]">WhatsApp / Telefone</div>
-                    <div className="font-bold text-[#1f2937]">(51) 98183-3205</div>
+                    <div className="text-xs font-mono uppercase text-[#6b7280]">Central de Atendimento</div>
+                    <a href="tel:+555130123360" className="font-bold text-[#1f2937] hover:text-[#be1e2d] transition-colors">
+                      (51) 3012-3360
+                    </a>
                   </div>
                 </div>
 
@@ -749,7 +982,7 @@ function App() {
                   </div>
                   <div>
                     <div className="text-xs font-mono uppercase text-[#6b7280]">Horário</div>
-                    <div className="font-bold text-[#1f2937]">Seg-Sex: 8h às 18h</div>
+                    <div className="font-bold text-[#1f2937]">Seg-Sex: 8h às 12h e das 13h30min às 18h</div>
                   </div>
                 </div>
               </div>
@@ -801,12 +1034,22 @@ function App() {
                       onChange={(e) => setContactServico(e.target.value)}
                     >
                       <option>Selecione um serviço</option>
-                      <option>Revisão Completa</option>
-                      <option>Troca de Óleo</option>
-                      <option>Freios</option>
-                      <option>Suspensão</option>
+                      <option>Motor</option>
                       <option>Injeção Eletrônica</option>
+                      <option>Suspensão</option>
+                      <option>Direção</option>
+                      <option>Freio</option>
+                      <option>Câmbio / Embreagem</option>
+                      <option>Geometria 3D e Balanceamento</option>
                       <option>Ar Condicionado</option>
+                      <option>Troca de Óleo e Filtros</option>
+                      <option>Pneus</option>
+                      <option>Bateria / Alternador / Motor de Partida</option>
+                      <option>Higienização do Ar Condicionado</option>
+                      <option>Oxi-sanitização</option>
+                      <option>Troca de Óleo de Câmbio Automático</option>
+                      <option>Limpeza do Sistema de Arrefecimento</option>
+                      <option>Descarbonização do Sistema de Injeção</option>
                       <option>Outro</option>
                     </select>
                   </div>
@@ -877,11 +1120,13 @@ function App() {
             <div>
               <h4 className="font-bold mb-4">Serviços</h4>
               <ul className="space-y-2">
-                <li><span className="text-gray-400">Revisão Completa</span></li>
-                <li><span className="text-gray-400">Troca de Óleo</span></li>
-                <li><span className="text-gray-400">Freios</span></li>
-                <li><span className="text-gray-400">Suspensão</span></li>
-                <li><span className="text-gray-400">Injeção Eletrônica</span></li>
+                <li><span className="text-gray-400">Motor e Injeção Eletrônica</span></li>
+                <li><span className="text-gray-400">Suspensão e Direção</span></li>
+                <li><span className="text-gray-400">Geometria 3D e Balanceamento</span></li>
+                <li><span className="text-gray-400">Freio, Câmbio e Embreagem</span></li>
+                <li><span className="text-gray-400">Ar Condicionado</span></li>
+                <li><span className="text-gray-400">Óleos, Filtros e Pneus</span></li>
+                <li><span className="text-gray-400">Baterias e Alternador</span></li>
               </ul>
             </div>
           </div>
