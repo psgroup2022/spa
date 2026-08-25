@@ -160,21 +160,31 @@ function App() {
 
   const testimonials = [
     {
-      name: 'Carlos Mendes',
-      role: 'Cliente desde 2018',
-      content: 'A SPA Automotiva é referência em Porto Alegre. Atendimento impecável e equipe altamente qualificada.',
+      name: 'Gustavo Novelletto Neto',
+      role: 'Local Guide · 66 avaliações',
+      date: 'há 7 meses',
+      content: 'Cresci ouvindo que oficinas mecânicas praticam orçamentos desonestos, agora vejo que a maioria paga "esta conta" por uma minoria, bem parecido com o quadro atual do Brasil. A SPA Automotiva é o porto seguro dos 4 carros da família. Honestidade, competência fazem desta um orgulho para a categoria de oficinas mecânicas. Além disso uma sala de espera confortável com um bom café, internet, TV. Ultra recomendo.',
       rating: 5
     },
     {
-      name: 'Maria Silva',
-      role: 'Cliente desde 2020',
-      content: 'Sempre levo meu carro aqui. Profissionais competentes e preços justos. Recomendo!',
+      name: 'Diego Magainn',
+      role: 'Local Guide · 30 avaliações',
+      date: 'há 1 ano',
+      content: 'Equipe top! Sempre prontos para resolver qualquer problema! Já precisei de assistência 21:00 da noite e me deram todas as orientações e suporte necessário.',
       rating: 5
     },
     {
-      name: 'João Pedro',
-      role: 'Cliente desde 2019',
-      content: 'Serviço de primeira qualidade. Minha frota empresarial só confia na SPA.',
+      name: 'Luis Vieira',
+      role: 'Local Guide · 31 avaliações',
+      date: 'há 2 anos',
+      content: 'Ótimo atendimento, realmente é deixar o carro em boas mãos, meu carro foi todo revisado lá e agora está pronto para curtir as férias com a família.',
+      rating: 5
+    },
+    {
+      name: 'Fabricio Kaufmann',
+      role: 'Local Guide · 45 avaliações',
+      date: 'há 4 anos',
+      content: 'Excelente atendimento e serviço de ótima qualidade. Profissionais competentes e 100% confiáveis.',
       rating: 5
     }
   ];
@@ -634,25 +644,33 @@ function App() {
             <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight">
               O que nossos <span className="text-[#be1e2d]">clientes</span> dizem
             </h2>
+            <p className="mt-4 text-sm text-[#6b7280]">
+              Avaliações reais publicadas no Google por quem confia a manutenção do carro à SPA.
+            </p>
           </div>
 
           {/* Testimonial Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {testimonials.map((testimonial, index) => (
-              <Card key={testimonial.name} className="card-spa reveal" style={{ transitionDelay: `${index * 100}ms` }}>
-                <CardContent className="p-6">
-                  {/* Rating */}
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-[#be1e2d] text-[#be1e2d]" />
-                    ))}
+              <Card key={testimonial.name} className="card-spa reveal h-full" style={{ transitionDelay: `${index * 100}ms` }}>
+                <CardContent className="p-6 flex flex-col h-full">
+                  {/* Rating + Source */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex gap-1">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 fill-[#be1e2d] text-[#be1e2d]" />
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#9ca3af]">
+                      Google · {testimonial.date}
+                    </span>
                   </div>
-                  
+
                   {/* Content */}
-                  <p className="text-[#6b7280] leading-relaxed mb-6">
-                    "{testimonial.content}"
+                  <p className="text-[#6b7280] leading-relaxed mb-6 flex-1">
+                    &ldquo;{testimonial.content}&rdquo;
                   </p>
-                  
+
                   {/* Author */}
                   <div className="flex items-center gap-3 pt-4 border-t border-[#e5e7eb]">
                     <div className="w-10 h-10 rounded-full bg-[#be1e2d]/10 flex items-center justify-center text-[#be1e2d] font-bold">
@@ -666,6 +684,19 @@ function App() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+
+          {/* Link para o Google */}
+          <div className="mt-10 text-center reveal">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=SPA+Automotiva+Av.+Alcides+Maia+199+Porto+Alegre"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-bold text-[#be1e2d] hover:text-[#1f2937] transition-colors"
+            >
+              Ver todas as avaliações no Google
+              <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>
