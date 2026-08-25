@@ -18,6 +18,13 @@ import {
 import logo from '@/assets/logo.svg';
 import videoBg from '@/assets/video_bg.mp4';
 import geometria3d from '@/assets/geometria-3d.jpg';
+import oficinaLoja from '@/assets/oficina-loja.jpg';
+import oficinaFachada from '@/assets/oficina-fachada.jpg';
+import oficinaElevadores from '@/assets/oficina-elevadores.jpg';
+import oficinaMotor from '@/assets/oficina-motor.jpg';
+import oficinaRoda from '@/assets/oficina-roda.jpg';
+import oficinaOleo from '@/assets/oficina-oleo.jpg';
+import oficinaFerramentas from '@/assets/oficina-ferramentas.jpg';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -31,6 +38,7 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<'home' | 'para-voce' | 'para-empresa'>('home');
   const heroRef = useRef<HTMLDivElement>(null);
+  const parallaxRef = useRef<HTMLImageElement>(null);
 
   // States for Dialog Agendamento
   const [dialogNome, setDialogNome] = useState('');
@@ -40,7 +48,6 @@ function App() {
 
   // States for Contact Form Agendamento
   const [contactNome, setContactNome] = useState('');
-  const [contactEmail, setContactEmail] = useState('');
   const [contactTelefone, setContactTelefone] = useState('');
   const [contactServico, setContactServico] = useState('');
   const [contactMensagem, setContactMensagem] = useState('');
@@ -64,7 +71,6 @@ function App() {
     e.preventDefault();
     let msg = 'Olá! Gostaria de agendar um serviço na SPA Automotiva.';
     if (contactNome) msg += `\n*Nome:* ${contactNome}`;
-    if (contactEmail) msg += `\n*Email:* ${contactEmail}`;
     if (contactTelefone) msg += `\n*Telefone:* ${contactTelefone}`;
     if (contactServico && contactServico !== 'Selecione um serviço') msg += `\n*Serviço:* ${contactServico}`;
     if (contactMensagem) msg += `\n*Mensagem:* ${contactMensagem}`;
@@ -105,6 +111,43 @@ function App() {
     }, 300);
 
     return () => observer.disconnect();
+  }, []);
+
+  /* Paralaxe da faixa de chamada.
+     A imagem é 25% mais alta que a moldura e desliza contra a rolagem, o que
+     dá profundidade sem background-attachment: fixed, que o iOS ignora.
+     O trabalho acontece dentro de requestAnimationFrame, e translate3d não
+     dispara layout. Quem pediu menos movimento não recebe nada disso. */
+  useEffect(() => {
+    const img = parallaxRef.current;
+    const frame = img?.parentElement;
+    if (!img || !frame) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let ticking = 0;
+
+    const update = () => {
+      ticking = 0;
+      const box = frame.getBoundingClientRect();
+      if (box.bottom < 0 || box.top > window.innerHeight) return;
+      const centro = box.top + box.height / 2 - window.innerHeight / 2;
+      const alcance = (window.innerHeight + box.height) / 2;
+      const progresso = Math.max(-1, Math.min(1, centro / alcance));
+      img.style.transform = `translate3d(0, ${(progresso * 10).toFixed(2)}%, 0)`;
+    };
+
+    const onScroll = () => {
+      if (!ticking) ticking = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (ticking) cancelAnimationFrame(ticking);
+    };
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -157,6 +200,29 @@ function App() {
     }
   ];
 
+  /* Tira do salão. Legenda nomeia o procedimento: numa marca técnica a
+     imagem sem rótulo é decoração, com rótulo é informação. */
+  const workshopShots = [
+    { src: oficinaMotor, caption: 'Revisão de motor', alt: 'Mecânico da SPA Automotiva trabalhando no compartimento do motor de um Renault com o capô aberto' },
+    { src: oficinaRoda, caption: 'Aperto com torquímetro', alt: 'Mecânico apertando os parafusos da roda de um veículo erguido no elevador' },
+    { src: oficinaOleo, caption: 'Troca de óleo', alt: 'Óleo usado escorrendo do cárter de um veículo erguido para um recipiente de coleta' },
+    { src: oficinaFerramentas, caption: 'Bancada de ferramentas', alt: 'Gaveta aberta de um carrinho de ferramentas com chaves e soquetes organizados' }
+  ];
+
+  /* Ponte sintoma -> serviço. O visitante não é obrigado a saber o nome
+     técnico do que o carro tem, que era o pré-requisito que o catálogo impunha.
+     Cada linha aponta para um serviço que a oficina executa. */
+  const symptoms = [
+    { sinal: 'O volante puxa para um lado', detalhe: 'ou o pneu está gastando só de uma borda', servico: 'Geometria 3D e balanceamento', ancora: 'geometria-3d' },
+    { sinal: 'Bate ou balança demais na lombada', detalhe: 'o carro parece solto na estrada', servico: 'Suspensão e direção', ancora: 'catalogo' },
+    { sinal: 'Acendeu luz no painel', detalhe: 'o motor falha ou o consumo subiu', servico: 'Injeção eletrônica e descarbonização', ancora: 'catalogo' },
+    { sinal: 'O freio chia', detalhe: 'o pedal desceu ou o carro demora a parar', servico: 'Sistema de freios', ancora: 'catalogo' },
+    { sinal: 'O ar não gela', detalhe: 'ou solta cheiro quando liga', servico: 'Ar condicionado e higienização', ancora: 'catalogo' },
+    { sinal: 'O câmbio automático dá trancos', detalhe: 'ou demora a engatar', servico: 'Troca de óleo de câmbio automático', ancora: 'catalogo' },
+    { sinal: 'O motor esquenta', detalhe: 'ou o reservatório baixa sozinho', servico: 'Sistema de arrefecimento', ancora: 'catalogo' },
+    { sinal: 'Não pega', detalhe: 'ou acendeu a luz da bateria', servico: 'Bateria, alternador e motor de partida', ancora: 'catalogo' }
+  ];
+
   const serviceCatalog = [
     {
       title: 'Mecânica e Reparos',
@@ -169,11 +235,11 @@ function App() {
     {
       title: 'Serviços Especiais',
       items: [
-        'Higienização do sistema de ar condicionado',
-        'Oxi-sanitização',
-        'Troca de óleo de câmbio automático',
-        'Limpeza do sistema de arrefecimento',
-        'Descarbonização do sistema de injeção'
+        { nome: 'Higienização do ar condicionado', quando: 'quando o ar sopra com cheiro ao ligar' },
+        { nome: 'Oxi-sanitização', quando: 'para odor impregnado no interior do carro' },
+        { nome: 'Troca de óleo de câmbio automático', quando: 'quando dá trancos ou demora a engatar' },
+        { nome: 'Limpeza do sistema de arrefecimento', quando: 'quando o motor esquenta ou o líquido baixa' },
+        { nome: 'Descarbonização da injeção', quando: 'quando o consumo subiu ou o motor falha em marcha lenta' }
       ]
     }
   ];
@@ -191,13 +257,13 @@ function App() {
     },
     {
       icon: <Fuel className="w-4 h-4" />,
-      title: 'Menos consumo',
-      description: 'Rodas alinhadas gastam menos'
+      title: 'Trocou pneu',
+      description: 'Momento certo de medir'
     },
     {
       icon: <Timer className="w-4 h-4" />,
-      title: 'Pneus duram mais',
-      description: 'Desgaste uniforme na banda'
+      title: 'Pegou buraco forte',
+      description: 'Ou mexeu na suspensão'
     }
   ];
 
@@ -263,6 +329,9 @@ function App() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
+          <button onClick={() => scrollToSection('sintomas')} className="nav-link text-[15px] font-medium tracking-tight transition-colors">
+            Sintomas
+          </button>
           <button onClick={() => scrollToSection('servicos')} className="nav-link text-[15px] font-medium tracking-tight transition-colors">
             Serviços
           </button>
@@ -357,13 +426,14 @@ function App() {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-50 bg-spa-surface pt-20 px-6 md:hidden">
           <div className="flex flex-col gap-6">
+            <button onClick={() => scrollToSection('sintomas')} className="text-lg font-medium text-left">Sintomas</button>
             <button onClick={() => scrollToSection('servicos')} className="text-lg font-medium text-left">Serviços</button>
             <button onClick={() => scrollToSection('sobre')} className="text-lg font-medium text-left">Quem Somos</button>
             <button onClick={() => scrollToSection('depoimentos')} className="text-lg font-medium text-left">Depoimentos</button>
             <button onClick={() => scrollToSection('contato')} className="text-lg font-medium text-left">Contato</button>
             <Button 
               onClick={() => {
-                sendWhatsApp('Olá! Gostaria de agendar um serviço na SPA Automotiva.');
+                sendWhatsApp('Olá! Meu carro é um (modelo e ano) e está (o que está acontecendo). Vocês podem avaliar?');
                 setIsMobileMenuOpen(false);
               }}
               className="w-full bg-spa-red hover:bg-spa-red-deep text-white rounded-full mt-4"
@@ -420,16 +490,17 @@ function App() {
               </h1>
 
               <p className="text-lg md:text-xl text-white/75 max-w-[38ch] leading-relaxed reveal delay-300">
-                Motor, injeção, suspensão, freio, câmbio, ar condicionado e
-                geometria 3D. Para o carro de família e para a frota da empresa.
+                Você aprova o serviço sabendo o nome do defeito, a peça que
+                entra e o valor. Nada de deixar o carro e esperar para ver no
+                que dá.
               </p>
 
               <div className="flex flex-wrap gap-4 reveal delay-400">
                 <button
-                  onClick={() => sendWhatsApp('Olá! Gostaria de agendar um serviço na SPA Automotiva.')}
+                  onClick={() => sendWhatsApp('Olá! Meu carro é um (modelo e ano) e está (o que está acontecendo). Vocês podem avaliar?')}
                   className="btn-primary"
                 >
-                  <span>Falar no WhatsApp</span>
+                  <span>Descrever o problema</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
@@ -452,23 +523,83 @@ function App() {
                 </div>
                 <div>
                   <dt className="label-spec text-white/70">Seg a Sex</dt>
-                  <dd className="text-2xl font-display text-white tnum mt-1">8h–18h</dd>
+                  <dd className="text-2xl font-display text-white tnum mt-1 whitespace-nowrap">
+                    8h–12h · 13h30–18h
+                  </dd>
                 </div>
               </dl>
             </div>
 
-            {/* Foto sem moldura de vidro e sem selo flutuante por cima:
-                os dois eram enfeite de template e não afirmavam nada. */}
+            {/* Foto real da loja. Saiu o banco de imagem, e com ele a moldura
+                de vidro e o selo flutuante que não afirmavam nada. */}
             <figure className="relative reveal delay-200 z-[3]">
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/15">
+              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/15">
                 <img
-                  src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=1000&q=80"
-                  alt="Mecânico trabalhando sob o capô de um veículo em uma oficina"
+                  src={oficinaLoja}
+                  alt="Loja da SPA Automotiva: prateleiras de óleo Valvoline, baterias Moura e pneus Dunlop sob o letreiro iluminado da oficina"
+                  width={1600}
+                  height={901}
                   className="w-full h-full object-cover"
                   loading="eager"
                 />
               </div>
             </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* Ponte sintoma -> serviço */}
+      <section id="sintomas" className="relative scroll-mt-24 py-24 bg-spa-paper border-b border-spa-line">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-16 gap-y-12">
+            <div className="lg:col-span-4 reveal lg:sticky lg:top-32 lg:self-start">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-10 h-px bg-spa-red" />
+                <span className="label-spec">Comece pelo sintoma</span>
+              </div>
+              <h2 className="text-4xl font-display tracking-tight mb-6 text-spa-ink leading-[1.04]">
+                Você não precisa<br />chegar com o<br />diagnóstico pronto.
+              </h2>
+              <p className="text-spa-body leading-relaxed max-w-[46ch] mb-8">
+                Ninguém é obrigado a saber se o barulho é suspensão ou freio.
+                Diga o que está acontecendo que a gente encontra o resto.
+              </p>
+              <button
+                onClick={() => sendWhatsApp('Olá! Meu carro é um (modelo e ano) e está (o que está acontecendo). Vocês podem avaliar?')}
+                className="btn-primary"
+              >
+                <span>Contar o que está acontecendo</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            <ul className="lg:col-span-8 border-b border-spa-line">
+              {symptoms.map((item, index) => (
+                <li key={item.sinal} className="reveal" style={{ transitionDelay: `${index * 60}ms` }}>
+                  <button
+                    type="button"
+                    onClick={() => scrollToSection(item.ancora)}
+                    className="group w-full text-left grid grid-cols-[1fr_auto] gap-x-5 items-center py-5 border-t border-spa-line transition-colors hover:bg-spa-surface focus-visible:bg-spa-surface"
+                  >
+                    <span className="min-w-0">
+                      <span className="block text-spa-ink font-medium leading-snug">
+                        {item.sinal}
+                        <span className="text-spa-body font-normal">, {item.detalhe}.</span>
+                      </span>
+                      <span className="label-spec block mt-2 group-hover:text-spa-red transition-colors">
+                        {item.servico}
+                      </span>
+                    </span>
+                    <ArrowUpRight className="w-5 h-5 text-spa-line-strong shrink-0 transition-all duration-300 group-hover:text-spa-red group-hover:-translate-y-1 group-hover:translate-x-1" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            <p className="lg:col-span-8 lg:col-start-5 text-sm text-spa-faint max-w-[62ch] reveal">
+              Isto é orientação, não diagnóstico. O que o carro tem de fato só a
+              avaliação diz.
+            </p>
           </div>
         </div>
       </section>
@@ -486,11 +617,11 @@ function App() {
                 <span className="label-spec">Serviços</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-display tracking-tight mb-6 text-spa-ink leading-[1.02]">
-                Do carro de família<br />à frota inteira.
+                Escolha por onde<br />você se encaixa.
               </h2>
               <p className="text-spa-body leading-relaxed max-w-[46ch]">
-                Quatro frentes de atendimento. A lista completa do que a oficina
-                executa vem logo abaixo, item por item, sem letra miúda.
+                São quatro frentes. A diferença entre elas não é o preço, é o
+                tipo de acompanhamento que o carro recebe.
               </p>
             </div>
 
@@ -544,6 +675,29 @@ function App() {
             </ul>
           </div>
 
+          {/* Tira do salão, largura total do container. Proporção alta e
+              estreita para ilustrar sem virar uma grade de cartões. */}
+          <ul className="mt-20 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {workshopShots.map((shot, index) => (
+              <li
+                key={shot.caption}
+                className="reveal"
+                style={{ transitionDelay: `${index * 80}ms` }}
+              >
+                <div className="aspect-[4/5] sm:aspect-[3/4] rounded-xl overflow-hidden bg-spa-line">
+                  <img
+                    src={shot.src}
+                    alt={shot.alt}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <p className="label-spec mt-3">{shot.caption}</p>
+              </li>
+            ))}
+          </ul>
+
           {/* Catálogo completo de serviços */}
           <div id="catalogo" className="mt-24 scroll-mt-28">
             <div className="max-w-[54ch] mb-12 reveal">
@@ -580,12 +734,21 @@ function App() {
                   </div>
 
                   <ul className="space-y-4">
-                    {group.items.map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-spa-ink font-medium">
-                        <CheckCircle className="w-[18px] h-[18px] text-spa-red shrink-0 mt-[3px]" />
-                        <span className="leading-snug">{item}</span>
-                      </li>
-                    ))}
+                    {group.items.map((item) => {
+                      const nome = typeof item === 'string' ? item : item.nome;
+                      const quando = typeof item === 'string' ? null : item.quando;
+                      return (
+                        <li key={nome} className="flex items-start gap-3">
+                          <CheckCircle className="w-[18px] h-[18px] text-spa-red shrink-0 mt-[3px]" />
+                          <span className="leading-snug">
+                            <span className="text-spa-ink font-medium">{nome}</span>
+                            {quando && (
+                              <span className="block text-sm text-spa-body mt-0.5">Indicado {quando}.</span>
+                            )}
+                          </span>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               ))}
@@ -621,9 +784,15 @@ function App() {
                   </h3>
 
                   <p className="text-spa-on-dark leading-relaxed mb-8 max-w-lg">
-                    Alinhamento computadorizado com tecnologia 3D: câmeras de alta precisão medem
-                    cambagem, cáster e convergência das quatro rodas em minutos. O resultado é um
-                    carro estável, com direção centralizada e pneus que duram muito mais.
+                    Alinhamento por câmeras, com medição das quatro rodas. Cambagem,
+                    cáster e convergência são medidos e corrigidos dentro da
+                    especificação da montadora.
+                  </p>
+
+                  <p className="text-spa-on-dark leading-relaxed mb-8 max-w-lg">
+                    <strong className="text-white font-semibold">Você percebe assim:</strong>{' '}
+                    o volante para de puxar, o carro fica assentado na reta e o pneu
+                    passa a gastar por igual, em vez de comer só uma borda.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
@@ -642,7 +811,7 @@ function App() {
 
                   <div className="flex flex-wrap gap-4">
                     <button
-                      onClick={() => sendWhatsApp('Olá! Gostaria de agendar Geometria 3D e Balanceamento na SPA Automotiva.')}
+                      onClick={() => sendWhatsApp('Olá! Quero agendar geometria 3D e balanceamento. Meu carro é um (modelo e ano).')}
                       className="btn-primary"
                     >
                       <span>Agendar Geometria 3D</span>
@@ -662,22 +831,78 @@ function App() {
         </div>
       </section>
 
+      {/* Faixa de chamada em paralaxe.
+          A imagem transborda a moldura em 25% para a translação nunca
+          revelar as bordas. Alturas em svh para o Safari do iPhone não
+          contar a barra de endereço duas vezes. */}
+      <section className="relative h-[75svh] min-h-[440px] max-h-[720px] overflow-hidden">
+        <img
+          ref={parallaxRef}
+          src={oficinaElevadores}
+          alt="Salão da oficina com dois carros erguidos em elevadores e prateleiras de óleo ao fundo"
+          className="absolute left-0 -top-[12.5%] w-full h-[125%] object-cover will-change-transform"
+          loading="lazy"
+          decoding="async"
+        />
+        <div className="absolute inset-0 bg-spa-ink/45" />
+        <div className="absolute inset-0 bg-gradient-to-r from-spa-ink via-spa-ink/60 to-spa-ink/15" />
+
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-6 w-full">
+            <div className="max-w-2xl reveal">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-10 h-px bg-spa-red-bright" />
+                <span className="label-spec text-white/70">Agendamento</span>
+              </div>
+
+              <h2 className="text-4xl md:text-6xl font-display text-white tracking-tight leading-[1.02] mb-6">
+                Marque o horário<br />e traga o carro.
+              </h2>
+
+              <p className="text-white/85 leading-relaxed mb-9 max-w-[46ch]">
+                Mande pelo WhatsApp o modelo, o ano e o que está acontecendo.
+                Se preferir resolver por telefone, a central atende de segunda
+                a sexta.
+              </p>
+
+              <div className="flex flex-wrap gap-4">
+                <button
+                  onClick={() => sendWhatsApp('Olá! Quero agendar um horário. Meu carro é um (modelo e ano) e preciso de (serviço).')}
+                  className="btn-primary"
+                >
+                  <span>Agendar pelo WhatsApp</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+                <a
+                  href="tel:+555130123360"
+                  className="px-6 py-3.5 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-semibold hover:bg-white/20 transition-colors"
+                >
+                  (51) 3012-3360
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* About Section */}
       <section id="sobre" className="relative scroll-mt-24 py-24 bg-spa-paper border-b border-spa-line">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left: Image */}
-            <div className="relative reveal">
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
-                <img 
-                  src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80" 
-                  alt="Oficina SPA Automotiva"
+            {/* A fachada ilustra o título literalmente. O totem já mostra o
+                número 199, então o endereço não precisa ser escrito aqui. */}
+            <figure className="relative reveal">
+              <div className="relative aspect-video rounded-2xl overflow-hidden border border-spa-line">
+                <img
+                  src={oficinaFachada}
+                  alt="Fachada da SPA Automotiva ao entardecer, com o totem de número 199 e os painéis de serviços sobre o portão da oficina"
+                  width={1600}
+                  height={901}
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-spa-red/20 to-transparent" />
               </div>
-              
-            </div>
+            </figure>
 
             {/* Right: Content */}
             <div className="reveal delay-200">
@@ -687,18 +912,23 @@ function App() {
               </div>
 
               <h2 className="text-4xl md:text-5xl font-display tracking-tight mb-8 text-spa-ink leading-[1.02]">
-                Vinte anos no<br />mesmo endereço.
+                Vinte anos,<br />o mesmo padrão.
               </h2>
 
               <p className="text-spa-body leading-relaxed mb-6 max-w-[62ch]">
-                A oficina abriu em 2006 e nunca mudou de lugar, com a mesma
-                equipe que os clientes reconhecem pelo nome.
+                Desde 2006, a SPA cuida de carros particulares e frotas de
+                empresas com o mesmo padrão de qualidade. Cada serviço segue as
+                especificações da montadora, utiliza peças com garantia e é
+                realizado por uma equipe fixa, que muitos clientes já conhecem
+                pelo nome.
               </p>
 
               <p className="text-spa-body leading-relaxed mb-10 max-w-[62ch]">
-                O que os clientes escrevem no Google se repete: orçamento sem
-                surpresa e explicação do defeito antes do serviço. As avaliações
-                estão logo abaixo, com nome e data, do jeito que foram publicadas.
+                Aqui, você sabe o que será feito antes de o serviço começar.
+                Explicamos o problema com clareza, apresentamos o orçamento e só
+                então seguimos com o trabalho. Essa forma transparente de atender
+                aparece com frequência nas avaliações dos nossos clientes no
+                Google, que você pode conferir logo abaixo.
               </p>
 
               {/* Ficha da oficina. Substituiu quatro cartõezinhos com "100%
@@ -796,12 +1026,13 @@ function App() {
               </div>
 
               <h2 className="text-4xl md:text-5xl font-display tracking-tight mb-6">
-                Traga o carro,<br />ou mande o sintoma.
+                Manda o sintoma.<br />A gente diz o próximo passo.
               </h2>
 
               <p className="text-spa-body leading-relaxed mb-8">
-                Descreva o sintoma pelo WhatsApp ou ligue. Se preferir, use o
-                formulário: ele abre a conversa no WhatsApp com os dados já preenchidos.
+                Escreva o modelo, o ano e o que o carro está fazendo. Se der,
+                grave o barulho com o celular e mande junto: ajuda mais do que
+                parece. O formulário ao lado abre a conversa já preenchida.
               </p>
 
               {/* Dados de contato como ficha, e não como quatro cartões
@@ -874,26 +1105,16 @@ function App() {
                     />
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="label-spec text-spa-body mb-2 block">Email</label>
-                      <Input 
-                        type="email" 
-                        placeholder="seu@email.com" 
-                        className="h-12" 
-                        value={contactEmail}
-                        onChange={(e) => setContactEmail(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label className="label-spec text-spa-body mb-2 block">Telefone</label>
-                      <Input 
-                        placeholder="(51) 99999-9999" 
-                        className="h-12" 
-                        value={contactTelefone}
-                        onChange={(e) => setContactTelefone(e.target.value)}
-                      />
-                    </div>
+                  <div>
+                    <label className="label-spec text-spa-body mb-2 block">Telefone</label>
+                    <Input
+                      type="tel"
+                      inputMode="tel"
+                      placeholder="(51) 99999-9999"
+                      className="h-12"
+                      value={contactTelefone}
+                      onChange={(e) => setContactTelefone(e.target.value)}
+                    />
                   </div>
                   
                   <div>

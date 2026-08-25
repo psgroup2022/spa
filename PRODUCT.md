@@ -68,3 +68,34 @@ Adicionalmente, evitar o reflexo de categoria: "oficina mecânica" não implica 
 - Foco de teclado visível em todo elemento interativo. Nada de `outline: none` sem substituto.
 - Alvos de toque com no mínimo 44x44px, considerando uso em celular, na rua, muitas vezes com uma mão só.
 - Texto alternativo descritivo nas imagens de serviço. Emoji nunca substitui ícone com significado.
+
+## Pendências de comunicação
+
+A reescrita da home foi aplicada até onde os fatos permitiam. Uma fase segue
+**pendente**, aguardando informações que só a SPA pode confirmar. Enquanto elas
+não vierem, estas seções não vão para o ar, porque o princípio 5 acima proíbe
+preencher com suposição.
+
+**Bloqueado:**
+
+- Seção "Como funciona aqui": o processo em cinco passos que transforma
+  "diagnóstico antes do orçamento" de slogan em procedimento verificável.
+- Seção de Perguntas Frequentes, com schema FAQPage.
+- Postura de preço na home ("orçamento sem custo", se for o caso).
+- Trazer Super Garantia e check-up gratuito das páginas internas para a home.
+
+**Respostas que destravam, em ordem de peso:**
+
+1. A Super Garantia cobre o quê, por quanto tempo ou quilometragem?
+2. Orçamento e avaliação são gratuitos para carro particular?
+3. Quando aparece serviço extra no meio do trabalho, como o cliente é avisado?
+4. Precisa agendar ou atende por ordem de chegada?
+5. Quais formas de pagamento e se há parcelamento.
+6. O check-up gratuito vale para particular ou só para frota?
+
+**Validação técnica em aberto:** a tabela sintoma → serviço da seção
+`#sintomas` foi escrita a partir dos serviços que a oficina executa, mas a
+correspondência entre queixa e sistema precisa do aval de um mecânico da casa.
+
+Diagnóstico completo e texto reescrito, com as 19 lacunas mapeadas:
+https://claude.ai/code/artifact/437b64af-31b3-453c-aed2-5b4916e3851a
