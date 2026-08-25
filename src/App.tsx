@@ -201,14 +201,13 @@ function App() {
     }
   ];
 
-  /* Ficha da oficina: só dado que o visitante consegue conferir sozinho,
-     por telefone, no Google Maps ou indo até lá. Nada de "100% satisfação". */
+  /* Escopo da oficina. Endereço, horário e telefone ficam só na seção
+     Contato: repetir os três aqui era a mesma ficha duas vezes. */
   const workshopFacts = [
     { term: 'Em operação desde', value: '2006' },
-    { term: 'Endereço', value: 'Av. Alcides Maia, 199 · Porto Alegre / RS' },
-    { term: 'Atendimento', value: 'Segunda a sexta, 8h às 12h e 13h30 às 18h' },
-    { term: 'Perfis atendidos', value: 'Carro particular e frota, todas as montadoras' },
-    { term: 'Telefone', value: '(51) 3012-3360 · WhatsApp (51) 98183-3205' }
+    { term: 'Atende', value: 'Carro particular e frota' },
+    { term: 'Montadoras', value: 'Todas' },
+    { term: 'Especialidades', value: 'Mecânica geral, ar condicionado e geometria 3D' }
   ];
 
   const testimonials = [
@@ -421,9 +420,8 @@ function App() {
               </h1>
 
               <p className="text-lg md:text-xl text-white/75 max-w-[38ch] leading-relaxed reveal delay-300">
-                Oficina na Av. Alcides Maia desde 2006. Motor, injeção, suspensão,
-                freio, câmbio, ar condicionado e geometria 3D, para carro de família
-                e para frota.
+                Motor, injeção, suspensão, freio, câmbio, ar condicionado e
+                geometria 3D. Para o carro de família e para a frota da empresa.
               </p>
 
               <div className="flex flex-wrap gap-4 reveal delay-400">
@@ -470,16 +468,13 @@ function App() {
                   loading="eager"
                 />
               </div>
-              <figcaption className="label-spec text-white/70 mt-4">
-                Av. Alcides Maia, 199 · Porto Alegre / RS
-              </figcaption>
             </figure>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section id="servicos" className="relative py-24 bg-spa-surface border-b border-spa-line">
+      <section id="servicos" className="relative scroll-mt-24 py-24 bg-spa-surface border-b border-spa-line">
         <div className="absolute inset-0 bg-grid opacity-30" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6">
@@ -668,7 +663,7 @@ function App() {
       </section>
 
       {/* About Section */}
-      <section id="sobre" className="relative py-24 bg-spa-paper border-b border-spa-line">
+      <section id="sobre" className="relative scroll-mt-24 py-24 bg-spa-paper border-b border-spa-line">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left: Image */}
@@ -696,9 +691,8 @@ function App() {
               </h2>
 
               <p className="text-spa-body leading-relaxed mb-6 max-w-[62ch]">
-                A SPA abriu em 2006 na Av. Alcides Maia e nunca mudou de lugar.
-                Atende carro particular e frota, de todas as montadoras, com a
-                mesma equipe que os clientes reconhecem pelo nome.
+                A oficina abriu em 2006 e nunca mudou de lugar, com a mesma
+                equipe que os clientes reconhecem pelo nome.
               </p>
 
               <p className="text-spa-body leading-relaxed mb-10 max-w-[62ch]">
@@ -727,24 +721,14 @@ function App() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="depoimentos" className="relative py-24 bg-spa-surface border-b border-spa-line">
+      <section id="depoimentos" className="relative scroll-mt-24 py-24 bg-spa-surface border-b border-spa-line">
         <div className="absolute inset-0 bg-grid opacity-30" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           {/* Section Header */}
-          <div className="max-w-[54ch] mb-16 reveal">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-10 h-px bg-spa-red" />
-              <span className="label-spec">Depoimentos</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-display tracking-tight text-spa-ink leading-[1.02] mb-5">
-              Publicado no Google,<br />não escrito por nós.
-            </h2>
-            <p className="text-spa-body leading-relaxed">
-              Quatro avaliações copiadas na íntegra, com o nome de quem escreveu
-              e quando. O link no fim da seção abre a lista inteira, inclusive o
-              que não está aqui.
-            </p>
+          <div className="flex items-center gap-4 mb-12 reveal">
+            <div className="w-10 h-px bg-spa-red" />
+            <h2 className="label-spec">Depoimentos</h2>
           </div>
 
           {/* Testimonial Cards */}
@@ -752,14 +736,15 @@ function App() {
             {testimonials.map((testimonial, index) => (
               <Card key={testimonial.name} className="card-spa reveal h-full" style={{ transitionDelay: `${index * 100}ms` }}>
                 <CardContent className="p-6 flex flex-col h-full">
-                  {/* Rating + Source */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex gap-1">
+                  {/* Nota e origem. Precisa de flex-wrap: em telas estreitas
+                      a data encostava nas estrelas e as duas se sobrepunham. */}
+                  <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-5">
+                    <div className="flex gap-1 shrink-0" aria-label={`${testimonial.rating} de 5 estrelas`}>
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-spa-red text-spa-red" />
+                        <Star key={i} className="w-[18px] h-[18px] fill-spa-red text-spa-red" aria-hidden="true" />
                       ))}
                     </div>
-                    <span className="label-spec text-spa-faint">
+                    <span className="label-spec shrink-0">
                       Google · {testimonial.date}
                     </span>
                   </div>
@@ -800,7 +785,7 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contato" className="relative py-24 bg-spa-paper border-b border-spa-line">
+      <section id="contato" className="relative scroll-mt-24 py-24 bg-spa-paper border-b border-spa-line">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Left: Contact Info */}
@@ -977,8 +962,8 @@ function App() {
                 </span>
               </div>
               <p className="text-spa-on-dark leading-relaxed max-w-md mb-6">
-                Oficina mecânica na Av. Alcides Maia, 199, em Porto Alegre, desde 2006.
-                Carro particular e frota, de todas as montadoras.
+                Oficina mecânica em Porto Alegre desde 2006.
+                Carro particular e frota.
               </p>
               <div className="flex gap-3">
                 <a
